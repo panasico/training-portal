@@ -13,7 +13,7 @@
 	font-family: 'Baloo Chettan', cursive;
 	font-weight: 900;
 	font-size: 400%;
-	color: #333;
+	color: #04396C
 }
 #subHeader{
 	text-align: center;
@@ -21,14 +21,14 @@
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 900;
 	font-size: 150%;
-	color: #444;
+	color: #0C5AA6;
 }
 #smalText{
 	font-family: 'Montserrat', sans-serif;
 	padding: 10px 25px 20px;
 	font-weight: 400;
 	font-size: 100%;
-	color: #555;
+	color: #26527C;
 }
 #text-login{
 	display: block;
@@ -51,7 +51,7 @@
 	display: block;
 	margin: 0 auto;
 	margin-top: 20px;
-    background: rgb(151,23,41);
+    background: #FF9700;
 	width: 150px;
 	height: 50px;
     -webkit-border-radius: 3px;
