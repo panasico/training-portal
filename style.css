@@ -51,13 +51,20 @@
 	display: block;
 	margin: 0 auto;
 	margin-top: 20px;
-    background: #FF9700;
+    background: #EF8D00;
 	width: 150px;
 	height: 50px;
     -webkit-border-radius: 3px;
 	font-size: 1.21428571rem;
 }
+#recovery-login-pass{
+	color: #26527C;
+	display: block;
+	margin-left: 110px;
+	margin-top: 10px;
+}
 body{
 	background-image: url(images/backgroung.jpg);
 	background-size: 100%;
+	height:650px;
 }
