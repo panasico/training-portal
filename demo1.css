@@ -1,3 +1,4 @@
+
 @-webkit-keyframes animate-neon-text-shadow
 {
    0% { text-shadow: 0 0 5px #fff, 0 0 0px #fff, 0 0 5px #fff, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18;  }
@@ -50,6 +51,7 @@ input:focus, textarea:focus, select:focus
 {
    outline: none;
 }
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
 .visibility-hidden
 {
    visibility: hidden;
