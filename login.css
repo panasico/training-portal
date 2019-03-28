@@ -1,0 +1,151 @@
+body
+{
+   background-color: transparent;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+#Layer1
+{
+   background-color: transparent;
+   background-image: url(images/backgroung.jpg);
+   background-repeat: repeat-y;
+   background-position: left top;
+   background-size: 100% 100%;
+}
+#wb_Heading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   margin: 0;
+   padding: 0;
+   text-align: left;
+}
+#Heading
+{
+   color: #04396C;
+   font-family: "Baloo Chettan";
+   font-weight: bold;
+   font-size: 75px;
+   margin: 0;
+   text-align: left;
+}
+#Heading a
+{
+   color: #04396C;
+   text-decoration: none;
+}
+#wb_Form1
+{
+   background-color: rgba(251,251,251,0.86);
+   background-image: none;
+   border: 0px solid #CCCCCC;
+}
+#Editbox1
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color :#555555;
+   font-family: "Courier New";
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 46px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox1:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox1::placeholder
+{
+   color: #A9A9A9;
+   opacity: 1;
+}
+#Editbox1::-ms-input-placeholder
+{
+   color: #A9A9A9;
+}
+#Editbox2
+{
+   border: 1px solid #CCCCCC;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color :#555555;
+   font-family: "Courier New";
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 46px;
+   padding: 4px 4px 4px 4px;
+   margin: 0;
+   text-align: left;
+}
+#Editbox2:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+#Editbox2::placeholder
+{
+   color: #A9A9A9;
+   opacity: 1;
+}
+#Editbox2::-ms-input-placeholder
+{
+   color: #A9A9A9;
+}
+#Button1
+{
+   margin: 0;
+}
+#wb_Text2 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+#wb_Text2 div
+{
+   text-align: center;
+}
+#wb_Text3 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text3 div
+{
+   text-align: left;
+}
+#wb_Text4 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text4 div
+{
+   text-align: left;
+}
