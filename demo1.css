@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
 @-webkit-keyframes animate-neon-text-shadow
 {
    0% { text-shadow: 0 0 5px #fff, 0 0 0px #fff, 0 0 5px #fff, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18;  }
@@ -51,10 +51,21 @@ input:focus, textarea:focus, select:focus
 {
    outline: none;
 }
-@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
+
+
 .visibility-hidden
 {
    visibility: hidden;
+}
+#Heading a
+{
+   color: #04396C;
+   font-family: "Baloo Chettan";
+   font-weight: bold;
+   font-size: 75px;
+   margin: 0;
+   text-align: left;
+   text-decoration: none;
 }
 h1, .h1
 {
@@ -179,6 +190,11 @@ h6, .h6
    -webkit-animation-fill-mode: none;
    -moz-animation-fill-mode: none;
    animation-fill-mode: none;
+}
+.textExo2{
+	font-family: "Exo 2";
+	font-size:20px;
+	color:#002D56;
 }
 .orangeButton
 {
