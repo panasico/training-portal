@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
+margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;margin-left: auto;
+    margin-right: auto;@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
 @-webkit-keyframes animate-neon-text-shadow
 {
    0% { text-shadow: 0 0 5px #fff, 0 0 0px #fff, 0 0 5px #fff, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18, 0 0 5px #49ff18;  }
