@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Training portal</title>
+<link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&amp;subset=cyrillic" rel="stylesheet">
+<link href="../static/images/icon.png" rel="shortcut icon" type="image/x-icon">
+<link href="../static/css/demo1.css" rel="stylesheet">
+<link href="../static/css/login.css" rel="stylesheet">
+</head>
+<body>
+<div id="Layer1" style="position:absolute;text-align:center;left:0%;top:0px;width:100%;height:1057px;z-index:15;">
+	<div id="Layer1_Container" style="width:1293px;position:relative;margin-left:auto;margin-right:auto;text-align:left;">
+		<div id="wb_Form1" style="position:absolute;left:316px;top:0px;width:660px;height:800px;z-index:7;">
+			<form name="Form1" method="post" action="/reg" enctype="application/x-www-form-urlencoded" id="Form1">
+				<div style="position:absolute;left:68px;top:26px;width:524px;height:105px;z-index:6;">
+					<h1 id="Heading"><a href="#" onclick="window.location.href='login';return false;">Training portal</a></h1>
+				</div>
+				<div class="wb_Text2" style="position:absolute;left:5px;top:130px;width:652px;height:29px;">
+					<span>Регистрация</span>
+				</div>
+				<input type="text" class="Editbox1" style="left:113px;top:170px;" name="username" value="" spellcheck="false" placeholder="   Никнейм">
+				<input type="password" class="Editbox1" style="left:113px;top:230px;" name="pass" value="" spellcheck="false" placeholder="   Пароль">
+                <input type="email" class="Editbox1" style="left:113px;top:290px;" name="email" value="" spellcheck="false" placeholder="   E-mail" pattern=".+@globex.com" required>
+
+				<input type="text" class="Editbox1" style="left:113px;top:370px;" name="surname" value="" spellcheck="false" placeholder="   Фамилия">
+				<input type="text" class="Editbox1" style="left:113px;top:430px;" name="name" value="" spellcheck="false" placeholder="   Имя">
+				<input required type="text" class="Editbox1" placeholder="   Дата рождения" onfocus="(this.type='date')" style="left:113px;top:490px;" name="date"/>
+				<input type="number" class="Editbox1" style="left:113px;top:550px;" name="tnumber" id="tnumber" value="" spellcheck="false" placeholder="   Табельный номер" min = "90000000" max="99999999">
+
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+
+				<input type="submit" name="submit" value="Зарегистрироваться" class="orangeButton" style="position:absolute;left:190px;right: auto; top:700px;width:280px;height:50px;">
+			</form>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
