@@ -3,9 +3,35 @@
 <head>
 <title>constructor</title>
 <link href="../icon.png" rel="shortcut icon" type="image/x-icon">
-<link href="course_designer.css" rel="stylesheet">
-<link href="../demo1.css" rel="stylesheet">
-<link href="../index.css" rel="stylesheet">
+<link href="../../static/css/course_designer.css" rel="stylesheet">
+<link href="../../static/css/demo1.css" rel="stylesheet">
+<link href="../../static/css/index.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script>
+
+</script>
+	
+<script>
+	var count_pages = 1;
+	function addPage(){
+	var list_pages = document.getElementById('list-pages');
+	var new_page = document.createElement('li');
+	new_page.innerHTML = "Новая страница";
+	if (count_pages > 0)
+		new_page.innerHTML +=" " + count_pages;
+	new_page.classList.add("pages");
+	new_page.id = "page"+count_pages;
+	list_pages.appendChild(new_page);
+		
+	document.getElementById("header-page").value = "Новая страница "+count_pages;
+	
+	count_pages++;
+		
+	$('#list-pages').sortable();
+	}
+</script>
 </head>
 
 <body>
@@ -15,14 +41,8 @@
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
 					<div><h3 class="h3">Название курса</h3></div>
 					<div>
-						<ul>
-						  <ul class="ul-treefree">
-									<li><p>1. Тема</p></li>
-									<li><p>2. Тема</p></li>
-									<li><p>3. Тема</p>
-									</li>
-									<li><p>4. Вопросы</p></li>
-						  </ul>
+						<ul id="list-pages" style="padding: 0;">
+							<li class="pages" id="page0">Новая страница</li>
 						</ul>
 					</div>
 					<div id="wb_CssMenu1">
@@ -31,7 +51,7 @@
 								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
 								<ul role="menu">
 											<li class="firstitem">
-												<a role="menuitem" href="#" target="_self">Страницу теории</a>
+												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу теории</a>
 											</li>
 											<li>
 												<a role="menuitem" href="#" target="_self">Страницу тестов</a>
@@ -49,7 +69,7 @@
 	  <div class="constructor-panel">
 				<form style="width: 860px;height: 770px; float:left; margin: 30px 0 0 40px">
 					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок страницы:</h3></div>
-					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;"></div>	
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id = "header-page"></div>	
 					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Текст страницы курса:</h3></div>
 					<textarea name="comment" cols="100" rows="25"></textarea>
 					<div>

@@ -5,40 +5,44 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Light Theme</title>
-<link href="css/simpleGridTemplate.css" rel="stylesheet" type="text/css">
+<link href="../static/css/simpleGridTemplate.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- Main Container -->
 <div class="container"> 
   <!-- Hero Section -->
  
-    <div class="profile_image"><img src="images/profile.png" width="127" height="121" alt=""/></div> 
+    <div class="profile_image"><img src="../static/images/profile.png" width="200" height="120" alt=""/></div>
     <div class="column">
 	  <!--<img src="images/profile.png" width="127" height="121" alt=""/-->
-      <h3 id="name_of_user"> Артём Смирнов</h3>
-      <h3 id="email_of_user">Email:znakhar1998@yandex.ru</h3>
-      <h3 id="telephone_of_user">Телефон: 8-916-***-**-**</h3>
+      <h3 id="name_of_user">{{name}} {{surname}}</h3>
+      <h3 id="email_of_user">Email: {{email}}</h3>
+      <h3 id="telephone_of_user">Табельный номер: {{tnumber}}</h3>
       <h3 id="profession_of_user">Специализация: программист</h3>
   </div>
-	
-	<div class="sign"> <hr><h5>Напоминания</h5><hr> </div>
+  <div>
+    <form action="/logout">
+        <button name="Exit">Выход</button>
+    </form>
+  </div>
+  <div class="sign"> <hr><h5>Напоминания</h5><hr> </div>
 	
   <!-- Stats Gallery Section -->
   <div class="gallery">
-    <div class="thumbnail"> <a href="#"><img src= "images/IT.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
       <h4>Назначено тестирование на завтра</h4>
       <p class="tag">Информационные технологии,тест</p>
     </div>
-    <div class="thumbnail"> <a href="#"><img src= "images/computer.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
       <h4>Назначено тестирование на  неделе</h4>
 		<p class="tag">Компьютерные науки, тест</p>
     </div>
-    <div class="thumbnail"> <a href="#"><img src=  "images/IT.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src=  "../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
       <h4>В текущем месяце аттестация</h4>
       <p class="tag">Информационные технологии,аттестация</p>
       
     </div>
-    <div class="thumbnail"> <a href="#"><img src="images/computer.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
       <h4>В текущем месяце аттестация</h4>
       <p class="tag">Компьютерные науки, аттестация</p>
       
@@ -48,20 +52,20 @@
   <div class="sign"> <hr><h5>Ваши курсы</h5><hr> </div>
 <!--Need progress bar-->
   <div class="gallery">
-    <div class="thumbnail"> <a href="#"><img src="images/IT.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
       <h4>TITLE</h4>
       <progress max="100" value="80"></progress>      
     </div>
-    <div class="thumbnail"> <a href="#"><img src="images/nauka_dannih.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/nauka_dannih.jpg" alt="" width="2000" class="cards"/></a>
       <h4>TITLE</h4>
      <progress max="100" value="50"></progress>
     </div>
-    <div class="thumbnail"> <a href="#"><img src="images/computer.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
       <h4>TITLE</h4>
      <progress max="100" value="70"></progress>
      
     </div>
-    <div class="thumbnail"> <a href="#"><img src= "images/personality.jpg" alt="" width="2000" class="cards"/></a>
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/personality.jpg" alt="" width="2000" class="cards"/></a>
       <h4>TITLE</h4>
 		<progress max="100" value="30"></progress>
     </div>

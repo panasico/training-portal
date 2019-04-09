@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2');
 body{
-	background-image: url("images/constructor_background.jpg");
+	background-image: url("../images/constructor_background.jpg");
 	margin: 0px;
 }
 .main-layer{
@@ -70,10 +70,23 @@ h5.h5
 	/*text-align-last: center;*/
 	float:right;
 }
-/* ul-treefree */
-ul.ul-treefree { padding-left:10px; }
-ul.ul-treefree ul { margin:0; padding-left:6px; }
-ul.ul-treefree li { position:relative; list-style:none outside none; border-left:solid 2px #999; margin:0; padding:0 0 0 40px; line-height:20px; text-align: left;}
-ul.ul-treefree li:before { content:''; display:block; border-bottom:solid 2px #999; position:absolute; width:50px; height:11px; left:0; top:0; }
-ul.ul-treefree li:last-child { border-left:0 none; }
-ul.ul-treefree li:last-child:before { border-left:solid 2px #999; }
+.pages {
+	display: block;
+	list-style-type: none;
+	margin: 0 auto;
+	width: 275px;
+	color:rgba(0,57,111,1.00);
+	font-family: "Exo 2";
+	font-size: 16px;
+	background-color:rgba(250,250,250,1);
+	line-height: 38px;
+	height: 38px;
+	text-align: center;
+	vertical-align: middle;
+}
+li.pages:hover{
+	background-color:rgb(51,122,183);
+	cursor: pointer;
+	color:white;
+}
+
