@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+<title>constructor</title>
+<link href="../icon.png" rel="shortcut icon" type="image/x-icon">
+<link href="../../static/css/course_designer.css" rel="stylesheet">
+<link href="../../static/css/demo1.css" rel="stylesheet">
+<link href="../../static/css/index.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<div class="main-layer">
+	  <div class="my-header">Конструктор курсов</div>
+			<div class="project-explorer-container">
+				<div class="project-explorer" style="margin: 30px 10px 0 10px">
+					<div><h3 class="h3">Название курса</h3></div>
+					<div class="pages-list">
+						<ul id="list-pages" style="padding: 0;">
+							<li class="pages" id="page0">Новая страница</li>
+						</ul>
+					</div>
+					<div id="wb_CssMenu1">
+						<ul role="menubar">
+						  <li class="firstmain"  style="width: 136px;">
+								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
+								<ul role="menu">
+											<li class="firstitem">
+												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу теории</a>
+											</li>
+											<li>
+												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу тестов</a>
+											</li>
+										</ul>
+							</li>
+							<li  style="width: 136px;">
+								<a role="menuitem" class="withsubmenu" href="#" target="_self">Удалить</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+						<input class="orangeButton" type="button" value="Сохранить курс" style="display: block; margin: 220px auto 0 auto;width: 220px; height: 40px;" 
+							   >
+					</div>
+			</div>
+		
+	  <div class="constructor-panel">
+				<form style="width: 860px;height: 850px; float:left; margin: 30px 0 0 40px">
+					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок теста:</h3></div>
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id = "header-page"></div>	
+					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Выберите тип тестовой страницы:</h3></div>
+					<div>	
+						<select autofocus style="width: 525px; height: 30px;" onchange="OnSelectionChange (this)">
+							<option>Тест с текстовым ответом</option>
+							<option onChange="setRadioTest()">Тест с одним вариантом выбора</option>
+							<option>Тест с несколькими вариантами выбора</option>
+						</select>
+					</div>
+					<div id="container">
+						<div style="margin: 30px 0 15px 0;"><h3 class="h3">Введите вопрос:</h3></div>
+						<textarea name="comment" cols="100" rows="25" style="resize:none;" id="textAnswer"></textarea>
+						<div id="question">
+							
+						</div>
+						
+					</div>
+					<div>
+						<input class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 100px auto 0 auto; width: 300px; height: 40px;" 
+							   >
+					</div>
+				</form>
+				
+			</div>
+	</div>
+</body>
+	<script>
+	var count_pages = 1;
+	function addPage(){
+		var list_pages = document.getElementById('list-pages');
+		var new_page = document.createElement('li');
+		new_page.innerHTML = "Новая страница";
+		if (count_pages > 0)
+			new_page.innerHTML +=" " + count_pages;
+		new_page.classList.add("pages");
+		new_page.id = "page"+count_pages;
+		list_pages.appendChild(new_page);
+
+		document.getElementById("header-page").value = "Новая страница "+count_pages;
+
+		count_pages++;
+
+		$('#list-pages').sortable();
+	}
+	
+	var count_options = 1;
+		
+	function setRadioTest(){
+		var container = document.getElementById('container');
+		var question_div = document.createElement('div');
+		question_div.style.margin ='30px 0 15px 0';
+		
+		//добавление заголовка  "Выберите варианты ответа:"
+		var text_options = document.createElement('h3');
+		text_options.innerHTML = "Введите варианты ответа:";
+		text_options.classList.add("h3");
+		question_div.appendChild(text_options);
+		
+		var input_div = document.createElement('div'); 
+		input_div.id = 'option'+count_options;
+		addInputBlock(input_div);
+		
+		question_div.appendChild(input_div);
+		
+		var add_input = document.createElement('button');
+		add_input.innerHTML = "Добавить";
+		add_input.onclick = function(input_div) {
+			var input = document.createElement('input');
+			input.type = "text";
+			input.size = "80";
+			input.style.marginTop = "20px";
+
+			var delete_input = document.createElement('button');
+			delete_input.innerHTML = "Удалить";
+			delete_input.onclick = function(){
+				$('#'+input_div.id).remove();
+			};
+
+			input_div.appendChild(input);
+			input_div.appendChild(delete_input);
+		};
+
+		parent.appendChild(input);
+		parent.appendChild(delete_input);
+		};
+		container.appendChild(question_div);
+		container.appendChild(add_input);
+	}
+	function addInputBlock(parent){
+		var input = document.createElement('input');
+		input.type = "text";
+		input.size = "80";
+		input.style.marginTop = "20px";
+		
+		var delete_input = document.createElement('button');
+		delete_input.innerHTML = "Удалить";
+		delete_input.onclick = function(){
+			$('#'+parent.id).remove();
+		};
+
+		parent.appendChild(input);
+		parent.appendChild(delete_input);
+	}
+	function OnSelectionChange (select) {
+			var textArea = document.getElementById('textAnswer');
+            var selectedOption = select.options[select.selectedIndex];
+		
+			var textTest = document.getElementById('question');
+			deleteDiv('question');
+			if(selectedOption.index == 0){
+				textArea.rows = 25;
+			}
+            if(selectedOption.index == 1){
+				setRadioTest();
+				textArea.rows = 5;
+			}
+	}
+		function deleteDiv(id){
+		$('#'+id).remove();
+	}
+</script>
+	
+</html>
+
