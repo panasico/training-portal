@@ -54,15 +54,20 @@
 					<div>	
 						<select autofocus style="width: 525px; height: 30px;" onchange="OnSelectionChange (this)">
 							<option>Тест с текстовым ответом</option>
-							<option onChange="setRadioTest()">Тест с одним вариантом выбора</option>
+							<option>Тест с одним вариантом выбора</option>
 							<option>Тест с несколькими вариантами выбора</option>
 						</select>
 					</div>
 					<div id="container">
 						<div style="margin: 30px 0 15px 0;"><h3 class="h3">Введите вопрос:</h3></div>
-						<textarea name="comment" cols="100" rows="25" style="resize:none;" id="textAnswer"></textarea>
+						<textarea name="comment" cols="100" rows="5" style="resize:none;" id="textAnswer"></textarea>
 						<div id="question">
-							
+							<h3 class="h3">Введите варианты ответа:</h3>
+							<div id="options">
+								<div id="option1"><input id="input1" type="text" size="80" style="margin-top: 20px;"></div>
+								<div id="option2"><input id="input2" type="text" size="80" style="margin-top: 20px;"></div>
+							</div>
+							<button type="button" id = "add">Добавить</button>
 						</div>
 						
 					</div>
@@ -93,11 +98,15 @@
 
 		$('#list-pages').sortable();
 	}
-	
-	var count_options = 1;
-		
-	function setRadioTest(){
-		var container = document.getElementById('container');
+	//количество вариантов ответа на тест
+	var count_options = 2;
+	var btn_add = document.getElementById('add');
+	btn_add.type = 'button';
+	btn_add.onclick = function(){
+		var input_div = document.getElementById('options');
+		addInputBlock(input_div, undefined, false);
+	}
+	function setRadioTest(container, parent, check, style_success = undefined, style_error = undefined){
 		var question_div = document.createElement('div');
 		question_div.style.margin ='30px 0 15px 0';
 		
@@ -108,66 +117,94 @@
 		question_div.appendChild(text_options);
 		
 		var input_div = document.createElement('div'); 
-		input_div.id = 'option'+count_options;
-		addInputBlock(input_div);
-		
+		input_div.id = 'options';
+		addInputBlock(input_div, style_success, check ? true : false);
+		addInputBlock(input_div, style_error, check ? true : false);
 		question_div.appendChild(input_div);
 		
 		var add_input = document.createElement('button');
+		add_input.type = "button";
 		add_input.innerHTML = "Добавить";
-		add_input.onclick = function(input_div) {
-			var input = document.createElement('input');
-			input.type = "text";
-			input.size = "80";
-			input.style.marginTop = "20px";
+		add_input.onclick = function() {
+			addInputBlock(input_div, style_error, check ? true : false);
+		};
 
+		container.appendChild(question_div);
+		container.appendChild(add_input);
+		parent.appendChild(container);
+		
+	}
+		//функция добавляет строку чекбокс, инпут текст и кнопку удалить вариант
+	function addInputBlock(parent, style_class = undefined, check=false){
+		//создаем контейнер для всего этого
+		var input_div = document.createElement('div');
+		count_options++;
+		input_div.id = 'option' + count_options;
+		
+
+		//создаем чекбокс
+		if (check){
+			style_class = "successEditbox";
+			var checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.checked = true;
+			input_div.appendChild(checkbox);
+		}
+		
+		//создаем инпут текст
+		var input = document.createElement('input');
+		input.id = 'input' + count_options;
+		input.type = "text";
+		input.size = "80";
+		input.style.marginTop = "20px";
+		if (style_class !== undefined && !check)
+			input.classList.add(style_class);
+		input_div.appendChild(input);
+		
+		//создаем кнопку удалить
+		if (count_options > 2){
 			var delete_input = document.createElement('button');
 			delete_input.innerHTML = "Удалить";
 			delete_input.onclick = function(){
 				$('#'+input_div.id).remove();
+				count_options--;
 			};
-
-			input_div.appendChild(input);
 			input_div.appendChild(delete_input);
-		};
-
-		parent.appendChild(input);
-		parent.appendChild(delete_input);
-		};
-		container.appendChild(question_div);
-		container.appendChild(add_input);
-	}
-	function addInputBlock(parent){
-		var input = document.createElement('input');
-		input.type = "text";
-		input.size = "80";
-		input.style.marginTop = "20px";
+		}
 		
-		var delete_input = document.createElement('button');
-		delete_input.innerHTML = "Удалить";
-		delete_input.onclick = function(){
-			$('#'+parent.id).remove();
-		};
-
-		parent.appendChild(input);
-		parent.appendChild(delete_input);
+		
+		
+		//добавляем нашу линию ответа в родителя
+		parent.appendChild(input_div);
 	}
-	function OnSelectionChange (select) {
+	function addOnClick(input_div, check){
+		var input = document.getElementById(input_div);
+		addInputBlock(input, undefined, check ? true : false);
+	}
+	function OnSelectionChange (select = undefined) {
 			var textArea = document.getElementById('textAnswer');
-            var selectedOption = select.options[select.selectedIndex];
+			var selectedOption = select.options[select.selectedIndex];
 		
-			var textTest = document.getElementById('question');
+			var container = document.getElementById('container');
+			var question_div = document.createElement('div');
+			question_div.id = 'question';
 			deleteDiv('question');
-			if(selectedOption.index == 0){
-				textArea.rows = 25;
-			}
-            if(selectedOption.index == 1){
-				setRadioTest();
-				textArea.rows = 5;
-			}
+			count_options = 0;
+		switch(selectedOption.index){
+			case 0:
+				setRadioTest(question_div, container, false);
+				break;
+			case 1:
+				setRadioTest(question_div, container, false, "successEditbox", "errorEditbox");
+				break;
+			case 2:
+				setRadioTest(question_div, container, true);
+				break;
+		}
 	}
 		function deleteDiv(id){
 		$('#'+id).remove();
+		count_options = 1;
 	}
 </script>
 	

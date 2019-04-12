@@ -13,7 +13,7 @@
 
 </head>
 <body>
-		<div id="wb_Form1" style="width:660px;height:840px;">
+		<div id="wb_Form1" style="width:660px;">
 			<form name="Form1" method="post" action="/reg" enctype="application/x-www-form-urlencoded" id="Form1">
 				<div style="margin: 0 auto;width:524px;">
 						<h1 id="Heading"><a href="#" onclick="window.location.href='../templates/login.html';return false;">Training portal</a></h1>
@@ -21,43 +21,20 @@
 				<div class="wb_Text2" style="margin: 40px 0 0 auto;">
 					<span>Регистрация</span>
 				</div>
-				<input type="text" class="Editbox1"  name="username" id="username" value="" spellcheck="false" placeholder="   Никнейм">
+				<div id="username-box"><input type="text" class="Editbox1" name="username" id="username" value="" spellcheck="false" placeholder="   Никнейм"></div>
 
-				<input type="password" class="Editbox1"  name="pass" value="" spellcheck="false" placeholder="   Пароль">
-                <input type="email" class="Editbox1"  name="email" id="email" value="" spellcheck="false" placeholder="   E-mail" pattern=".+@globex.com" required>
+				<div id="password-box"><input type="password" class="Editbox1" id="password"  name="pass" value="" spellcheck="false" placeholder="   Пароль"></div>
+                <div><input type="email" class="Editbox1"  name="email" id="email" value="" spellcheck="false" placeholder="   E-mail" pattern=".+@globex.com" required></div>
 
-				<input type="text" class="Editbox1"  name="surname" value="" spellcheck="false" placeholder="   Фамилия">
-				<input type="text" class="Editbox1"  name="name" value="" spellcheck="false" placeholder="   Имя">
-				<input required type="text" class="Editbox1" placeholder="   Дата рождения" onfocus="(this.type='date')"  name="date"/>
-				<input type="number" class="Editbox1" name="tnumber" id="tnumber" value="" spellcheck="false" placeholder="   Табельный номер" min = "90000000" max="99999999">
+				<div id="surname-box"><input type="text" class="Editbox1" id="surname"  name="surname" value="" spellcheck="false" placeholder="   Фамилия"></div>
+				<div id="name-box"><input type="text" class="Editbox1" id="name" name="name" value="" spellcheck="false" placeholder="   Имя"></div>
+				<div id="date-box"><input required type="text" class="Editbox1" placeholder="   Дата рождения" onfocus="(this.type='date')" id="date" name="date"/></div>
+				<div id="tnumber-box"><input type="number" class="Editbox1" id="tnumber" name="tnumber" id="tnumber" value="" spellcheck="false" placeholder="   Табельный номер" min = "90000000" max="99999999"></div>
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
 
-				<input type="submit" name="submit" value="Зарегистрироваться" class="orangeButton" style="margin:30px auto 0 auto;height:50px;width:300px;">
+				<div id="btn-box"><input type="submit" name="submit" value="Зарегистрироваться" class="orangeButton" style="margin:30px auto 0 auto;height:50px;width:300px;"></div>
 			</form>
 		</div>
 </body>
-<script>
-	//var idParent = "name";
-	//var idEditbox = "username1"
-	//var message = "ERORR!!!";
-	
-	function addErrorText(message, idParent){
-		var messageBox = document.createElement('span');
-	messageBox.innerHTML = message;
-	messageBox.classList.add("errorText")
-	document.getElementById(idParent).appendChild(messageBox);
-	}
-	
-	function setErrorCSS(idEditbox){
-	var element = document.getElementById(idEditbox);
-	element.classList.add("errorEditbox");
-	}
-	function setSuccessCSS(idEditbox){
-	var element = document.getElementById(idEditbox);
-	element.classList.add("successEditbox");
-	}
-	
-
-</script>
 </html>

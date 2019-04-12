@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
 body
 {
    background-color: transparent;
@@ -12,7 +13,7 @@ body
 #LayerBody
 {
    background-color: transparent;
-   background-image: url("../../images/backgroung.jpg");
+   background-image: url(../images/backgroung.jpg);
    background-repeat: repeat-y;
    background-position: left top;
    background-size: 100% 100%;
@@ -70,7 +71,7 @@ body
 #Carousel1 .frame-1
 {
    background-color: #4B0082;
-   background-image: url(images/magic_znania.jpg);
+   background-image: url(../images/magic_znania.jpg);
    background-repeat: no-repeat;
    background-position: left top;
    background-size: 100% 100%;
@@ -78,7 +79,7 @@ body
 #Carousel1 .frame-2
 {
    background-color: transparent;
-   background-image: url(images/iStock.jpg);
+   background-image: url(../images/iStock.jpg);
    background-repeat: no-repeat;
    background-position: left top;
    background-size: 100% 100%;
@@ -86,7 +87,7 @@ body
 #Carousel1 .frame-3
 {
    background-color: transparent;
-   background-image: url(images/bootcamp-training.jpg);
+   background-image: url(../images/bootcamp-training.jpg);
    background-repeat: no-repeat;
    background-position: left top;
    background-size: 100% 100%;
@@ -141,6 +142,7 @@ body
    background-color: transparent;
    margin: 0;
    text-align: left;
+	vertical-align: bottom;
 }
 #wb_CssMenu1 ul
 {

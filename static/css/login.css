@@ -40,7 +40,7 @@ body
    line-height: 46px;
    padding: 4px 4px 4px 4px;
    display: block;
-   margin: 20px auto;
+   margin: 30px auto 0px auto;
 }
 .Editbox1:focus
 {
@@ -48,7 +48,7 @@ body
    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
    outline: 0;
 }
-.Editbox1::placeholder
+.Editbox1:placeholder
 {
    color: #606060;
    opacity: 1;
@@ -57,7 +57,22 @@ body
 {
    color: #3D3D3D;
 }
-
+.errorText{
+	color: red;
+	display: block;
+	text-align: center;
+	font-family:'Exo 2';
+    font-weight:500;
+    font-size: 15px;
+}
+.errorEditbox{
+   border-color: red;
+   opacity: 1;
+}
+.successEditbox{
+   border-color: #1EBF0B;
+   opacity: 1;
+}
 .wb_Text2 
 {
    color:#0C5AA6;
