@@ -33,34 +33,17 @@
 							</div>
 						</div>
 						<div>
-							<div>
-								<div><h3 class="h3">Выберите специальность:</h3></div>
-								<div>	
-									<select autofocus style="margin: 20px 0 20px 40px;width: 300px; height: 30px;">
-										<option>Менеджмент</option>
-										<option>Дипломатия</option>
-										<option>Программная инженерия</option>
-										<option>Информационнае технологии</option>
-										<option>Другое</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div>
 							<div><h3 class="h3">Выберите название для курса:</h3></div>
 							<div><input type="text" size="70" autofocus autocomplete="on" style="height: 23px; margin: 20px 0 20px 40px;"></div>	
 						</div>
 						<div style="margin-top:40px;">
-							<div><h5 class="h5" style="font-size:18px; color:rgba(0,70,134,1.00); ">Выберите тип страниц для курса:</h4></div>
-							
+							<div><h5 class="h5" style="font-size:18px; color:rgba(0,70,134,1.00); ">Введите теги для курса:</h4></div>
 							<div style="margin-top:20px;">
 								<div id="tags">
-								  <span>php</span>
-								  <span>c++</span>
-								  <span>jquery</span>
-								  <input type="text" value="" placeholder="Add a tag" />
+								  <input type="text" value="" placeholder="Add a tag" autocomplete="on" id ='tag'/>
 								</div>
-							</div><br>
+							</div>
+							<br>
 						</div>
 						<div style="margin-top:60px;">
 							<div><h5 class="h5" style="font-size:18px; color:rgba(0,70,134,1.00); ">Выберите тип курса:</h5></div>
@@ -85,6 +68,10 @@
 	</div>
 </body>
 <script>
+	
+	var count_tags = 0;
+	var max_tags = 11;
+
 	$(function(){ // DOM ready
 
 	  // ::: TAGS BOX
@@ -92,18 +79,24 @@
 	  $("#tags input").on({
 		focusout : function() {
 		  var txt = this.value.replace(/[^a-z0-9\+\-\.\#]/ig,''); // allowed characters
-		  if(txt) $("<span/>", {text:txt.toLowerCase(), insertBefore:this});
+		  if(txt && max_tags > count_tags) $("<span/>", {text:txt.toLowerCase(), insertBefore:this});
 		  this.value = "";
+		  count_tags++;
 		},
 		keyup : function(ev) {
 		  // if: comma|enter (delimit more keyCodes with | pipe)
 		  if(/(188|13)/.test(ev.which)) $(this).focusout(); 
 		}
 	  });
+		var availableTags = ["php Script", "Супер Script JS", "asp Script", "Java" ]; //
+		$("#tag").autocomplete({ //на какой input:text назначить результаты списка
+			source: availableTags
+		});
 	  $('#tags').on('click', 'span', function() {
 		if(confirm("Remove "+ $(this).text() +"?")) $(this).remove(); 
+		count_tags--;
 	  });
-
+	  
 	});
 </script>
 </html>
