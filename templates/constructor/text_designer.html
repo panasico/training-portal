@@ -84,13 +84,7 @@
 			</div>
 </body>
 	<script>
-	//получаем название курса
-	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
-	//получаем тип курса
-	if(getLocalKey('type_course'))
-		document.getElementById('type_course').innerHTML = "[Общедоступный курс]";
-	else
-		document.getElementById('type_course').innerHTML = "[Назначенный курс]";
+	start_init();
 	//получаем количество тестовых страниц	
 	var count_test_pages = getLocalKey('count_test_pages');
 	//получаем количество текстовых страниц

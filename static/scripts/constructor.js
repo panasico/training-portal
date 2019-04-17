@@ -30,3 +30,13 @@ function setLocalLists(list_pageId, list_types, list_title, list_text){
 	localStorage.setItem('list_title', JSON.stringify(list_title));
 	localStorage.setItem('list_text', JSON.stringify(list_text));
 }
+
+function start_init(){
+	//получаем название курса
+	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
+	//получаем тип курса
+	if(getLocalKey('type_course'))
+		document.getElementById('type_course').innerHTML = "[Общедоступный курс]";
+	else
+		document.getElementById('type_course').innerHTML = "[Назначенный курс]";
+}

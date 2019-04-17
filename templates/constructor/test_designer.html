@@ -17,6 +17,7 @@
 			<div class="project-explorer-container">
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
 					<div><h3 class="h3" id='course_name'>Название курса</h3></div>
+					<div><h5 class="h5" id='type_course'>Название курса</h5></div>
 					<div class="pages-list">
 						<ul id="list-pages" style="padding: 0;">
 						</ul>
@@ -81,7 +82,7 @@
 	</div>
 </body>
 	<script>
-	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
+	start_init();
 	//получаем количество тестовых страниц	
 	var count_test_pages = getLocalKey('count_test_pages');
 	//получаем количество текстовых страниц
