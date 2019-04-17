@@ -7,6 +7,7 @@
 <link href="../../static/css/demo1.css" rel="stylesheet">
 <link href="../../static/css/index.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../../static/scripts/constructor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </head>
 
@@ -15,10 +16,10 @@
 	  <div class="my-header">Конструктор курсов</div>
 			<div class="project-explorer-container">
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
-					<div><h3 class="h3">Название курса</h3></div>
+					<div><h3 class="h3" id='course_name'>Название курса</h3></div>
+					<div><h5 class="h5" id='type_course'>Название курса</h5></div>
 					<div class="pages-list">
 						<ul id="list-pages" style="padding: 0;">
-							<li class="pages" id="page0">Новая страница</li>
 						</ul>
 					</div>
 					<div id="wb_CssMenu1">
@@ -27,10 +28,10 @@
 								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
 								<ul role="menu">
 											<li class="firstitem">
-												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу теории</a>
+												<a role="menuitem" href="#" target="_self" onclick="addTextPage()">Страницу теории</a>
 											</li>
 											<li>
-												<a role="menuitem" href="#" target="_self">Страницу тестов</a>
+												<a role="menuitem" href="#" target="_self" onclick="addTestPage()">Страницу тестов</a>
 											</li>
 										</ul>
 							</li>
@@ -49,7 +50,7 @@
 	  <div class="constructor-panel">
 				<form style="width: 860px;height: 850px; float:left; margin: 30px 0 0 40px">
 					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок страницы:</h3></div>
-					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id = "header-page"></div>	
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="Новая страница" id = "header-page"></div>	
 					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Текст страницы курса:</h3></div>
 					<textarea name="comment" cols="100" rows="25" id="textAsk"></textarea>
 					<div>
@@ -83,23 +84,68 @@
 			</div>
 </body>
 	<script>
-	var count_pages = 1;
-	function addPage(){
-	var list_pages = document.getElementById('list-pages');
-	var new_page = document.createElement('li');
-	new_page.innerHTML = "Новая страница";
-	if (count_pages > 0)
-		new_page.innerHTML +=" " + count_pages;
-	new_page.classList.add("pages");
-	new_page.id = "page"+count_pages;
-	list_pages.appendChild(new_page);
-		
-	document.getElementById("header-page").value = "Новая страница "+count_pages;
+	//получаем название курса
+	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
+	//получаем тип курса
+	if(getLocalKey('type_course'))
+		document.getElementById('type_course').innerHTML = "[Общедоступный курс]";
+	else
+		document.getElementById('type_course').innerHTML = "[Назначенный курс]";
+	//получаем количество тестовых страниц	
+	var count_test_pages = getLocalKey('count_test_pages');
+	//получаем количество текстовых страниц
+	var count_text_pages = getLocalKey('count_text_pages');
 	
-	count_pages++;
-		
-	$('#list-pages').sortable();
+	var count_pages = count_text_pages + count_test_pages;
+
+	//получаем листы данных страниц
+	var list_pageId = getLocalList('list_pageId');
+	var list_types = getLocalList('list_types');
+	var list_title = getLocalList('list_title');
+	var list_text = getLocalList('list_text');
+	
+	if (list_pageId !== []){	
+		//добавляем в обозреватель листов страницы, уже созданные ранее
+		for (var i = 0; i < list_pageId.length; i++){
+			getListTitles(list_title[i], list_pageId[i])
+		}
 	}
+	addTextPage();
+
+	function addTextPage(){
+		count_text_pages++;
+		//контейнер, в котором все страницы
+		var list_pages = document.getElementById('list-pages');
+		//создаем новую страницу
+		var new_page = document.createElement('li');
+		new_page.innerHTML = "Новая страница";
+		new_page.classList.add("pages");
+		new_page.id = "page"+count_text_pages;
+		if (count_text_pages > 1){
+			new_page.innerHTML +=" " + (count_text_pages-1);
+			document.getElementById("header-page").value = "Новая страница "+(count_text_pages-1);
+		}
+		list_pages.appendChild(new_page);
+
+		list_pageId.push(new_page.id);
+		list_types.push("text");
+		list_title.push(new_page.innerHTML);
+		list_text.push("test");
+		
+		$('#list-pages').sortable({
+			 change: function( event, ui ) {
+				 //здесь надо повесить запоминание порядка при перетягивании
+			 }
+		});
+		
+	}
+	function addTestPage(){
+		setLocalLists(list_pageId,list_types, list_title, list_text);
+		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+		window.location.href='test_designer.html';
+	}
+
+
 </script>
 </html>
 

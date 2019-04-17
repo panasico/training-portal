@@ -6,6 +6,7 @@
 <link href="../../static/css/course_designer.css" rel="stylesheet">
 <link href="../../static/css/demo1.css" rel="stylesheet">
 <link href="../../static/css/index.css" rel="stylesheet">
+		<script src="../../static/scripts/constructor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
@@ -15,10 +16,9 @@
 	  <div class="my-header">Конструктор курсов</div>
 			<div class="project-explorer-container">
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
-					<div><h3 class="h3">Название курса</h3></div>
+					<div><h3 class="h3" id='course_name'>Название курса</h3></div>
 					<div class="pages-list">
 						<ul id="list-pages" style="padding: 0;">
-							<li class="pages" id="page0">Новая страница</li>
 						</ul>
 					</div>
 					<div id="wb_CssMenu1">
@@ -27,10 +27,10 @@
 								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
 								<ul role="menu">
 											<li class="firstitem">
-												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу теории</a>
+												<a role="menuitem" href="#" target="_self" onclick="addTextPage()">Страницу теории</a>
 											</li>
 											<li>
-												<a role="menuitem" href="#" target="_self" onclick="addPage()">Страницу тестов</a>
+												<a role="menuitem" href="#" target="_self" onclick="addTestPage()">Страницу тестов</a>
 											</li>
 										</ul>
 							</li>
@@ -81,24 +81,68 @@
 	</div>
 </body>
 	<script>
-	var count_pages = 1;
-	function addPage(){
+	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
+	//получаем количество тестовых страниц	
+	var count_test_pages = getLocalKey('count_test_pages');
+	//получаем количество текстовых страниц
+	var count_text_pages = getLocalKey('count_text_pages');
+	
+	var count_pages = count_text_pages + count_test_pages;
+
+	//получаем листы данных страниц
+	var list_pageId = getLocalList('list_pageId');
+	var list_types = getLocalList('list_types');
+	var list_title = getLocalList('list_title');
+	var list_text = getLocalList('list_text');
+		
+	if (list_pageId !== []){	
+		//TEST
+		for (var i = 0; i < list_pageId.length; i++){
+			console.log(list_pageId[i]);
+			console.log(list_types[i]);
+			console.log(list_title[i]);
+			console.log(list_text[i]);
+		}
+	//добавляем в обозреватель листов страницы, уже созданные ранее
+		for (var i = 0; i < list_pageId.length; i++){
+			getListTitles(list_title[i], list_pageId[i])
+		}
+	}
+		
+	addTestPage();
+
+		
+	function addTestPage(){
+		count_test_pages++;
+		//контейнер, в котором все страницы
 		var list_pages = document.getElementById('list-pages');
+		//создаем новую страницу
 		var new_page = document.createElement('li');
-		new_page.innerHTML = "Новая страница";
-		if (count_pages > 0)
-			new_page.innerHTML +=" " + count_pages;
+		new_page.innerHTML = "Тест "+(count_test_pages);
 		new_page.classList.add("pages");
 		new_page.id = "page"+count_pages;
+		document.getElementById("header-page").value = "Тест "+(count_test_pages);
 		list_pages.appendChild(new_page);
 
-		document.getElementById("header-page").value = "Новая страница "+count_pages;
-
-		count_pages++;
-
-		$('#list-pages').sortable();
+		list_pageId.push(new_page.id);
+		list_types.push("test");
+		list_title.push(new_page.innerHTML);
+		list_text.push("test");
+		
+		$('#list-pages').sortable({
+			 change: function( event, ui ) {
+				 //здесь надо повесить запоминание порядка при перетягивании
+			 }
+		});
 	}
-	//количество вариантов ответа на тест
+
+	function addTextPage(){
+		setLocalLists(list_pageId,list_types, list_title, list_text);
+		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+		window.location.href='text_designer.html';
+	}
+		//-----------------------------------------------------------------------------------------
+		//количество вариантов ответа на тест
 	var count_options = 2;
 	var max_options = 6;
 	var btn_add = document.getElementById('add');
