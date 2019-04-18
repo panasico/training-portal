@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
 <title>constructor</title>
@@ -29,7 +29,7 @@
 								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
 								<ul role="menu">
 											<li class="firstitem">
-												<a role="menuitem" href="#" target="_self" onclick=''>Страницу теории</a>
+												<a role="menuitem" href="#" target="_self" onclick='addTextPage()'>Страницу теории</a>
 											</li>
 											<li>
 												<a role="menuitem" href="#" target="_self" onclick="sorry()">Страницу тестов</a>
@@ -109,6 +109,7 @@ if (list_pageId !== []){
 addTextPage();
 
 function addTextPage(){
+	flag_open = getLocalBool('flag_open');
 	if(count_pages > 0){
 		savePage();
 		document.getElementById("btn_save_page").disabled = false;
@@ -183,8 +184,10 @@ function savePage(){
 	var title = document.getElementById('header-page').value;
 	var text =  document.getElementById('textArea').value;
 	//внесение изменений
-	list_title[index] = document.getElementById('header-page').value;
-	list_text[index] = document.getElementById('textArea').value;
+	list_title[index] = title;
+	var title_expl = document.getElementById(current_page);
+	title_expl.innerHTML = title;
+	list_text[index] = text;
 	console.log(title); //debug
 	console.log(text); //debug
 	
