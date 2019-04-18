@@ -221,3 +221,8 @@ h6, .h6
    border-radius: 4px;
    cursor: pointer;
 }
+.orangeButton:disabled{
+	background-color: #DBDBDB;
+	border: 1px solid #DBDBDB;
+	cursor:
+}

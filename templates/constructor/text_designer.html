@@ -16,8 +16,8 @@
 	  <div class="my-header">Конструктор курсов</div>
 			<div class="project-explorer-container">
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
-					<div><h3 class="h3" id='course_name'>Название курса</h3></div>
-					<div><h5 class="h5" id='type_course'>Название курса</h5></div>
+					<div><h3 class="h3" id="course_name">Название курса</h3></div>
+					<div><h5 class="h5" id="type_course">Название курса</h5></div>
 					<div class="pages-list">
 						<ul id="list-pages" style="padding: 0;">
 						</ul>
@@ -50,95 +50,149 @@
 	  <div class="constructor-panel">
 				<form style="width: 860px;height: 850px; float:left; margin: 30px 0 0 40px">
 					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок страницы:</h3></div>
-					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="Новая страница" id = "header-page"></div>	
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="Новая страница" id ="header-page" oninput="change()"></div>	
 					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Текст страницы курса:</h3></div>
-					<textarea name="comment" cols="100" rows="25" id="textArea"></textarea>
+					<textarea name="comment" cols="100" rows="25" id="textArea" oninput="change()"></textarea>
 					<div>
 						<div class="investment">
 							<div><h4>Прикрепить фото</h4></div>
 							<div><h5 class="h5">(.jpg, .jpeg, .png)</h5></div>
-							<div>
-								<input type="file" accept=".jpg, .jpeg, .png" style="margin:20px;">
+							<div class="developing" data-title="В разработке...">
+								<input type="file" accept=".jpg, .jpeg, .png" style="margin:20px;" disabled>
 							</div>
 						</div>
 						<div class="investment">
 							<div><h4>Прикрепить вложение</h4></div>
 							<div><h5 class="h5">(.doc,.docx,.txt,.pptx, .ppt, .pptm)</h5></div>
 							<div>
-								<input type="file" accept=".doc,.docx,.txt,.pptx, .ppt, .pptm" style="margin:20px;">
+								<input class="developing" type="file" accept=".doc,.docx,.txt,.pptx, .ppt, .pptm" style="margin:20px;" disabled data-title="В разработке...">
 							</div>
 						</div>
 						<div class="investment">
 							<div><h4>Вставить ссылку на youtube</h4></div>
-							<div>
-								<input type="text"style="margin:20px;">
+							<div  class="developing" data-title="В разработке...">
+								<input type="text"style="margin:20px;" disabled>
 							</div>
 						</div>
 					</div>
 					<div >
-						<input class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 200px auto 0 auto; width: 300px; height: 40px;" 
-							   >
+						<input id="btn_save_page" class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 200px auto 0 auto; width: 300px; height: 40px;" onClick="savePage()">
 					</div>
 				</form>
 				
 			</div>
+	</div>
 </body>
-	<script>
-	start_init();
-	//получаем количество тестовых страниц	
-	var count_test_pages = getLocalKey('count_test_pages');
-	//получаем количество текстовых страниц
-	var count_text_pages = getLocalKey('count_text_pages');
-	
-	var count_pages = count_text_pages + count_test_pages;
+<script>
+var flag_open = start_init();
+// получаем текущий pageId
+var current_page = getCurrentPage();
+//получаем количество тестовых страниц	
+var count_test_pages = getLocalKey('count_test_pages');
+//получаем количество текстовых страниц
+var count_text_pages = getLocalKey('count_text_pages');
 
-	//получаем листы данных страниц
-	var list_pageId = getLocalList('list_pageId');
-	var list_types = getLocalList('list_types');
-	var list_title = getLocalList('list_title');
-	var list_text = getLocalList('list_text');
-	
-	if (list_pageId !== []){	
-		//добавляем в обозреватель листов страницы, уже созданные ранее
-		for (var i = 0; i < list_pageId.length; i++){
-			getListTitles(list_title[i], list_pageId[i])
-		}
+var count_pages = count_text_pages + count_test_pages;
+
+//получаем листы данных страниц
+var list_pageId = getLocalList('list_pageId');
+var list_types = getLocalList('list_types');
+var list_title = getLocalList('list_title');
+var list_text = getLocalList('list_text');
+
+if (list_pageId !== []){	
+	//добавляем в обозреватель листов страницы, уже созданные ранее
+	for (var i = 0; i < list_pageId.length; i++){
+		getListTitles(list_pageId[i], list_pageId, list_title);
 	}
-	addTextPage();
+}
+addTextPage();
 
-	function addTextPage(){
-		count_text_pages++;
+function addTextPage(){
+	if(count_pages > 0)
+		savePage();
+		
+	count_text_pages++;
+	count_pages++;
+
+	current_page = getCurrentPage();
+	//удаляем у всех подсветку текущей страницы
+	for (var i = 0; i < list_pageId.length; i++){
+		document.getElementById(list_pageId[i]).classList.remove("currentPage");
+	}
+	//если мы открываем ранее созданную страницу
+	if (flag_open){
+		var index = indexOf(list_pageId, current_page);
+		document.getElementById(current_page).classList.add("currentPage");
+		document.getElementById("header-page").value = list_title[index];
+		document.getElementById('textArea').value = list_text[index];
+		localStorage.setItem('flag_open', JSON.stringify(false));
+	}
+	else{
 		//контейнер, в котором все страницы
 		var list_pages = document.getElementById('list-pages');
 		//создаем новую страницу
 		var new_page = document.createElement('li');
 		new_page.innerHTML = "Новая страница";
 		new_page.classList.add("pages");
-		new_page.id = "page"+count_text_pages;
+		new_page.classList.add("currentPage");
+		new_page.id = "page"+count_pages;
+
+		list_pageId.push(new_page.id);
+		list_types.push("");
+		list_title.push(new_page.innerHTML);
+		list_text.push("");
+
+		new_page.onclick = function(){
+			clickCurrentPage(new_page.id);
+		}
+
+		current_page = new_page.id;
+
 		if (count_text_pages > 1){
 			new_page.innerHTML +=" " + (count_text_pages-1);
 			document.getElementById("header-page").value = "Новая страница "+(count_text_pages-1);
 		}
 		list_pages.appendChild(new_page);
+
 		document.getElementById('textArea').value = "";
-		list_pageId.push(new_page.id);
-		list_types.push("text");
-		list_title.push(new_page.innerHTML);
-		list_text.push("test");
-		
+
+
 		$('#list-pages').sortable({
 			 change: function( event, ui ) {
 				 //здесь надо повесить запоминание порядка при перетягивании
 			 }
 		});
-		
-	}
-	function addTestPage(){
-		setLocalLists(list_pageId,list_types, list_title, list_text);
-		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
-		window.location.href='test_designer.html';
-	}
 
+		localStorage.setItem('current_page', JSON.stringify(current_page));
+	}
+}
+function addTestPage(){
+	setLocalLists(list_pageId,list_types, list_title, list_text);
+	localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+	window.location.href='test_designer.html';
+}
+
+function savePage(){
+	current_page = getCurrentPage();
+	//buffers
+	var index = indexOf(list_pageId,current_page);
+	console.log(index); //debug
+	var title = document.getElementById('header-page').value;
+	var text =  document.getElementById('textArea').value;
+	//внесение изменений
+	list_title[index] = document.getElementById('header-page').value;
+	list_text[index] = document.getElementById('textArea').value;
+	console.log(title); //debug
+	console.log(text); //debug
+	
+	document.getElementById("btn_save_page").disabled = true;
+	
+	setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
+}
+function change(){
+	document.getElementById("btn_save_page").disabled = false;
+}
 
 </script>
 </html>

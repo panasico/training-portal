@@ -1,9 +1,13 @@
-function getListTitles(title, pageID){
+function getListTitles(pageID, list_pageID, list_titles){
+	var index = indexOf(list_pageID,pageID);
 	var list_pages = document.getElementById('list-pages');
 	var new_page = document.createElement('li');
-	new_page.innerHTML = title;
+	new_page.innerHTML = list_titles[index];
 	new_page.classList.add("pages");
 	new_page.id = pageID;
+	new_page.onclick = function(){
+		clickCurrentPage(pageID);
+	}
 	list_pages.appendChild(new_page);
 	$('#list-pages').sortable({
 			 change: function( event, ui ) {
@@ -24,6 +28,14 @@ function getLocalKey(key){
 		res = 0;
 	return res;
 }
+function getLocalBool(key){
+	var res = JSON.parse(localStorage.getItem(key));
+	if (res == null || res == "false")
+		res = false;
+	else
+		return true;
+	return res;
+}
 function setLocalLists(list_pageId, list_types, list_title, list_text){
 	localStorage.setItem('list_pageId', JSON.stringify(list_pageId));
 	localStorage.setItem('list_types', JSON.stringify(list_types));
@@ -39,4 +51,24 @@ function start_init(){
 		document.getElementById('type_course').innerHTML = "[Общедоступный курс]";
 	else
 		document.getElementById('type_course').innerHTML = "[Назначенный курс]";
+	var res = getLocalBool('flag_open');
+	return res;
+}
+
+function getCurrentPage(){
+	return getLocalKey('current_page');
+}
+
+function clickCurrentPage(current_page){
+	localStorage.setItem('flag_open', JSON.stringify(true));
+	localStorage.setItem('current_page', JSON.stringify(current_page));
+	setLocalLists(list_pageId,list_types, list_title, list_text);
+	window.location.reload();
+}
+
+function indexOf(list, object){
+	for (var i = 0; i < list.length; i++)
+		if(list[i] === object)
+			return i;
+	return -1;
 }

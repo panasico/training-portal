@@ -16,8 +16,8 @@
 	  <div class="my-header">Конструктор курсов</div>
 			<div class="project-explorer-container">
 				<div class="project-explorer" style="margin: 30px 10px 0 10px">
-					<div><h3 class="h3" id='course_name'>Название курса</h3></div>
-					<div><h5 class="h5" id='type_course'>Название курса</h5></div>
+					<div><h3 class="h3" id="course_name">Название курса</h3></div>
+					<div><h5 class="h5" id="type_course">Название курса</h5></div>
 					<div class="pages-list">
 						<ul id="list-pages" style="padding: 0;">
 						</ul>
@@ -82,7 +82,9 @@
 	</div>
 </body>
 	<script>
-	start_init();
+	var flag_open = start_init();
+	// получаем текущий pageId
+	var current_page = getLocalKey('current_page');
 	//получаем количество тестовых страниц	
 	var count_test_pages = getLocalKey('count_test_pages');
 	//получаем количество текстовых страниц
@@ -106,7 +108,7 @@
 		}
 	//добавляем в обозреватель листов страницы, уже созданные ранее
 		for (var i = 0; i < list_pageId.length; i++){
-			getListTitles(list_title[i], list_pageId[i])
+			getListTitles(i, list_pageId, list_title);
 		}
 	}
 		
@@ -115,31 +117,49 @@
 		
 	function addTestPage(){
 		count_test_pages++;
+		count_pages++;
+		//current_page = getCurrentPage();
+		for (var i = 0; i < list_pageId.length; i++){
+			document.getElementById(list_pageId[i]).classList.remove("currentPage");
+		}
 		//контейнер, в котором все страницы
 		var list_pages = document.getElementById('list-pages');
 		//создаем новую страницу
 		var new_page = document.createElement('li');
-		new_page.innerHTML = "Тест "+(count_test_pages);
+		new_page.innerHTML = "Тест";
 		new_page.classList.add("pages");
+		new_page.classList.add("currentPage");
 		new_page.id = "page"+count_pages;
-		document.getElementById("header-page").value = "Тест "+(count_test_pages);
-		list_pages.appendChild(new_page);
-
+		
 		list_pageId.push(new_page.id);
-		list_types.push("test");
+		list_types.push("");
 		list_title.push(new_page.innerHTML);
-		list_text.push("test");
+		list_text.push("");
+		
+		new_page.onclick = function(){
+			clickCurrentPage(new_page, list_pageId, list_title);
+		}
+		
+		current_page = new_page.id;
+		
+		if (count_test_pages > 1){
+			new_page.innerHTML +=" " + (count_test_pages-1);
+			document.getElementById("header-page").value = "Тест "+(count_test_pages);
+		}
+		
+		list_pages.appendChild(new_page);
 		
 		$('#list-pages').sortable({
 			 change: function( event, ui ) {
 				 //здесь надо повесить запоминание порядка при перетягивании
 			 }
 		});
+		localStorage.setItem('current_page', JSON.stringify(current_page));
 	}
 
 	function addTextPage(){
 		setLocalLists(list_pageId,list_types, list_title, list_text);
-		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+		localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
 		window.location.href='text_designer.html';
 	}
 		//-----------------------------------------------------------------------------------------

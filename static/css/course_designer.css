@@ -3,7 +3,21 @@
 input[type="text"]{
 	padding-left: 5px;
 }
-
+.developing{ 
+	display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+}
+.developing:hover::after { 
+ 	content: attr(data-title); 
+	position: absolute; /* Абсолютное позиционирование */
+    left: 20%; top: 30%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,1); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+}
 body{
 	background-image: url("../images/constructor_background.jpg");
 	margin: 0px;
@@ -62,6 +76,12 @@ h3.h3
 	font-family: "Exo 2";
 	margin-bottom: 20px;
 }
+h5.H5{
+	font-family: "Exo 2";
+	margin-top: 20px;
+	font-size:18px; 
+	color:rgba(0,70,134,1.00); 
+}
 h5.h5
 {
 	color:rgba(13,107,192,1.00);
@@ -96,6 +116,10 @@ h5.h5
 li.pages:hover{
 	background-color:rgb(51,122,183);
 	cursor: pointer;
+	color:white;
+}
+li.currentPage{
+	background-color:rgba(34,83,124,1.00);
 	color:white;
 }
 .errorEditbox{
