@@ -9,6 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="../../static/scripts/constructor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -28,10 +29,10 @@
 								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
 								<ul role="menu">
 											<li class="firstitem">
-												<a role="menuitem" href="#" target="_self" onclick="addTextPage()">Страницу теории</a>
+												<a role="menuitem" href="#" target="_self" onclick=''>Страницу теории</a>
 											</li>
 											<li>
-												<a role="menuitem" href="#" target="_self" onclick="addTestPage()">Страницу тестов</a>
+												<a role="menuitem" href="#" target="_self" onclick="sorry()">Страницу тестов</a>
 											</li>
 										</ul>
 							</li>
@@ -42,8 +43,7 @@
 					</div>
 				</div>
 				<div>
-						<input class="orangeButton" type="button" value="Сохранить курс" style="display: block; margin: 220px auto 0 auto;width: 220px; height: 40px;" 
-							   >
+						<input class="orangeButton" type="button" value="Сохранить курс" style="display: block; margin: 220px auto 0 auto;width: 220px; height: 40px;" onClick="saveCourse()">
 					</div>
 			</div>
 		
@@ -109,8 +109,10 @@ if (list_pageId !== []){
 addTextPage();
 
 function addTextPage(){
-	if(count_pages > 0)
+	if(count_pages > 0){
 		savePage();
+		document.getElementById("btn_save_page").disabled = false;
+	}
 		
 	count_text_pages++;
 	count_pages++;
@@ -139,7 +141,7 @@ function addTextPage(){
 		new_page.id = "page"+count_pages;
 
 		list_pageId.push(new_page.id);
-		list_types.push("");
+		list_types.push("text");
 		list_title.push(new_page.innerHTML);
 		list_text.push("");
 
@@ -192,6 +194,31 @@ function savePage(){
 }
 function change(){
 	document.getElementById("btn_save_page").disabled = false;
+}
+function sorry(){
+	swal("Простите ☹", "Это пока что в разработке", "info");
+}
+function saveCourse(){
+	savePage();
+	swal({
+		title: "Хорошая работа!",
+			text: "Курс сохраняется...",
+			icon: "success",
+		  buttons: {
+			catch: {
+			  text: "OK",
+			  value: "OK",
+			},
+		  },
+	})
+	.then((value) => {
+	  switch (value) {
+		case "OK":
+		 window.location.href='../index.html';
+		  break;
+	  }
+	});
+
 }
 
 </script>

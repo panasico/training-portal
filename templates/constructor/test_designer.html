@@ -81,47 +81,56 @@
 			</div>
 	</div>
 </body>
-	<script>
-	var flag_open = start_init();
-	// получаем текущий pageId
-	var current_page = getLocalKey('current_page');
-	//получаем количество тестовых страниц	
-	var count_test_pages = getLocalKey('count_test_pages');
-	//получаем количество текстовых страниц
-	var count_text_pages = getLocalKey('count_text_pages');
-	
-	var count_pages = count_text_pages + count_test_pages;
+<script>
+var flag_open = start_init();
+// получаем текущий pageId
+var current_page = getCurrentPage();
+//получаем количество тестовых страниц	
+var count_test_pages = getLocalKey('count_test_pages');
+//получаем количество текстовых страниц
+var count_text_pages = getLocalKey('count_text_pages');
 
-	//получаем листы данных страниц
-	var list_pageId = getLocalList('list_pageId');
-	var list_types = getLocalList('list_types');
-	var list_title = getLocalList('list_title');
-	var list_text = getLocalList('list_text');
-		
-	if (list_pageId !== []){	
-		//TEST
-		for (var i = 0; i < list_pageId.length; i++){
-			console.log(list_pageId[i]);
-			console.log(list_types[i]);
-			console.log(list_title[i]);
-			console.log(list_text[i]);
-		}
-	//добавляем в обозреватель листов страницы, уже созданные ранее
-		for (var i = 0; i < list_pageId.length; i++){
-			getListTitles(i, list_pageId, list_title);
-		}
+var count_pages = count_text_pages + count_test_pages;
+
+//получаем листы данных страниц
+var list_pageId = getLocalList('list_pageId');
+var list_types = getLocalList('list_types');
+var list_title = getLocalList('list_title');
+var list_text = getLocalList('list_text');
+
+//добавляем в обозреватель листов страницы, уже созданные ранее
+	for (var i = 0; i < list_pageId.length; i++){
+		getListTitles(list_pageId[i], list_pageId, list_title);
 	}
-		
-	addTestPage();
+}
 
-		
-	function addTestPage(){
-		count_test_pages++;
-		count_pages++;
-		//current_page = getCurrentPage();
-		for (var i = 0; i < list_pageId.length; i++){
-			document.getElementById(list_pageId[i]).classList.remove("currentPage");
-		}
+addTestPage();
+
+
+function addTestPage(){
+	//сохраняем страницу, если пользователь не нажал кнопку сохранить и нажал создать новую
+	if(count_pages > 0){
+		savePage();
+		document.getElementById("btn_save_page").disabled = false;
+	}
+	
+	count_test_pages++;
+	count_pages++;
+	
+	current_page = getCurrentPage();
+	//удаляем у всех подсветку текущей страницы
+	for (var i = 0; i < list_pageId.length; i++){
+		document.getElementById(list_pageId[i]).classList.remove("currentPage");
+	}
+	//если мы открываем ранее созданную страницу
+	if (flag_open){
+		var index = indexOf(list_pageId, current_page);
+		document.getElementById(current_page).classList.add("currentPage");
+		document.getElementById("header-page").value = list_title[index];
+		document.getElementById('textArea').value = list_text[index];
+		localStorage.setItem('flag_open', JSON.stringify(false));
+	}
+	else{
 		//контейнер, в котором все страницы
 		var list_pages = document.getElementById('list-pages');
 		//создаем новую страницу
@@ -130,25 +139,25 @@
 		new_page.classList.add("pages");
 		new_page.classList.add("currentPage");
 		new_page.id = "page"+count_pages;
-		
+
 		list_pageId.push(new_page.id);
 		list_types.push("");
 		list_title.push(new_page.innerHTML);
 		list_text.push("");
-		
+
 		new_page.onclick = function(){
-			clickCurrentPage(new_page, list_pageId, list_title);
+			clickCurrentPage(new_page.id);
 		}
-		
+
 		current_page = new_page.id;
-		
+
 		if (count_test_pages > 1){
 			new_page.innerHTML +=" " + (count_test_pages-1);
 			document.getElementById("header-page").value = "Тест "+(count_test_pages);
 		}
-		
+
 		list_pages.appendChild(new_page);
-		
+
 		$('#list-pages').sortable({
 			 change: function( event, ui ) {
 				 //здесь надо повесить запоминание порядка при перетягивании
@@ -156,128 +165,149 @@
 		});
 		localStorage.setItem('current_page', JSON.stringify(current_page));
 	}
+}
 
-	function addTextPage(){
-		setLocalLists(list_pageId,list_types, list_title, list_text);
-		localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
-		window.location.href='text_designer.html';
+function addTextPage(){
+	setLocalLists(list_pageId,list_types, list_title, list_text);
+	localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
+	window.location.href='text_designer.html';
+}
+function savePage(){
+	current_page = getCurrentPage();
+	//buffers
+	var index = indexOf(list_pageId,current_page);
+	console.log(index); //debug
+	var title = document.getElementById('header-page').value;
+	var text =  document.getElementById('textArea').value;
+	//внесение изменений
+	list_title[index] = document.getElementById('header-page').value;
+	list_text[index] = document.getElementById('textArea').value;
+	console.log(title); //debug
+	console.log(text); //debug
+
+	document.getElementById("btn_save_page").disabled = true;
+
+	setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
+}
+function change(){
+	document.getElementById("btn_save_page").disabled = false;
+}
+//-----------------------------------------------------------------------------------------
+	//количество вариантов ответа на тест
+var count_options = 2;
+var max_options = 6;
+var btn_add = document.getElementById('add');
+btn_add.type = 'button';
+btn_add.onclick = function(){
+	if(count_options < max_options){
+		var input_div = document.getElementById('options');
+		addInputBlock(input_div, undefined, false);
 	}
-		//-----------------------------------------------------------------------------------------
-		//количество вариантов ответа на тест
-	var count_options = 2;
-	var max_options = 6;
-	var btn_add = document.getElementById('add');
-	btn_add.type = 'button';
-	btn_add.onclick = function(){
-		if(count_options < max_options){
-			var input_div = document.getElementById('options');
-			addInputBlock(input_div, undefined, false);
-		}
-	}
-	function setRadioTest(container, parent, check, style_success = undefined, style_error = undefined){
-		var question_div = document.createElement('div');
-		question_div.style.margin ='30px 0 15px 0';
-		
-		//добавление заголовка  "Выберите варианты ответа:"
-		var text_options = document.createElement('h3');
-		text_options.innerHTML = "Введите варианты ответа:";
-		text_options.classList.add("h3");
-		question_div.appendChild(text_options);
-		
-		var input_div = document.createElement('div'); 
-		input_div.id = 'options';
-		addInputBlock(input_div, style_success, check ? true : false);
+}
+function setRadioTest(container, parent, check, style_success = undefined, style_error = undefined){
+	var question_div = document.createElement('div');
+	question_div.style.margin ='30px 0 15px 0';
+
+	//добавление заголовка  "Выберите варианты ответа:"
+	var text_options = document.createElement('h3');
+	text_options.innerHTML = "Введите варианты ответа:";
+	text_options.classList.add("h3");
+	question_div.appendChild(text_options);
+
+	var input_div = document.createElement('div'); 
+	input_div.id = 'options';
+	addInputBlock(input_div, style_success, check ? true : false);
+	addInputBlock(input_div, style_error, check ? true : false);
+	question_div.appendChild(input_div);
+
+	var add_input = document.createElement('button');
+	add_input.type = "button";
+	add_input.innerHTML = "Добавить";
+	add_input.onclick = function() {
 		addInputBlock(input_div, style_error, check ? true : false);
-		question_div.appendChild(input_div);
-		
-		var add_input = document.createElement('button');
-		add_input.type = "button";
-		add_input.innerHTML = "Добавить";
-		add_input.onclick = function() {
-			addInputBlock(input_div, style_error, check ? true : false);
+	};
+
+	container.appendChild(question_div);
+	container.appendChild(add_input);
+	parent.appendChild(container);
+
+}
+	//функция добавляет строку чекбокс, инпут текст и кнопку удалить вариант
+function addInputBlock(parent, style_class = undefined, check=false){
+	//создаем контейнер для всего этого
+	var input_div = document.createElement('div');
+	count_options++;
+	input_div.id = 'option' + count_options;
+
+
+	//создаем чекбокс
+	if (check){
+		style_class = "successEditbox";
+		var checkbox = document.createElement('input');
+		checkbox.type = 'checkbox';
+		checkbox.checked = true;
+		checkbox.id = "check" + count_options;
+		input_div.appendChild(checkbox);
+	}
+
+	//создаем инпут текст
+	var input = document.createElement('input');
+	if (style_class == "successEditbox")
+		input.id = "succes-input";
+	else
+		input.id = "input" + count_options;
+	input.type = "text";
+	input.size = "80";
+	input.style.marginTop = "20px";
+	if (style_class !== undefined && !check)
+		input.classList.add(style_class);
+	input_div.appendChild(input);
+
+	//создаем кнопку удалить
+	if (count_options > 2){
+		var delete_input = document.createElement('button');
+		delete_input.innerHTML = "Удалить";
+		delete_input.onclick = function(){
+			$('#'+input_div.id).remove();
+			count_options--;
 		};
+		input_div.appendChild(delete_input);
+	}
 
-		container.appendChild(question_div);
-		container.appendChild(add_input);
-		parent.appendChild(container);
-		
-	}
-		//функция добавляет строку чекбокс, инпут текст и кнопку удалить вариант
-	function addInputBlock(parent, style_class = undefined, check=false){
-		//создаем контейнер для всего этого
-		var input_div = document.createElement('div');
-		count_options++;
-		input_div.id = 'option' + count_options;
-		
 
-		//создаем чекбокс
-		if (check){
-			style_class = "successEditbox";
-			var checkbox = document.createElement('input');
-			checkbox.type = 'checkbox';
-			checkbox.checked = true;
-			checkbox.id = "check" + count_options;
-			input_div.appendChild(checkbox);
-		}
-		
-		//создаем инпут текст
-		var input = document.createElement('input');
-		if (style_class == "successEditbox")
-			input.id = "succes-input";
-		else
-			input.id = "input" + count_options;
-		input.type = "text";
-		input.size = "80";
-		input.style.marginTop = "20px";
-		if (style_class !== undefined && !check)
-			input.classList.add(style_class);
-		input_div.appendChild(input);
-		
-		//создаем кнопку удалить
-		if (count_options > 2){
-			var delete_input = document.createElement('button');
-			delete_input.innerHTML = "Удалить";
-			delete_input.onclick = function(){
-				$('#'+input_div.id).remove();
-				count_options--;
-			};
-			input_div.appendChild(delete_input);
-		}
-		
-		
-		
-		//добавляем нашу линию ответа в родителя
-		parent.appendChild(input_div);
+
+	//добавляем нашу линию ответа в родителя
+	parent.appendChild(input_div);
+}
+function addOnClick(input_div, check){
+	var input = document.getElementById(input_div);
+	addInputBlock(input, undefined, check ? true : false);
+}
+function OnSelectionChange (select = undefined) {
+		var textArea = document.getElementById('textAnswer');
+		var selectedOption = select.options[select.selectedIndex];
+
+		var container = document.getElementById('container');
+		var question_div = document.createElement('div');
+		question_div.id = 'question';
+		deleteDiv('question');
+		count_options = 0;
+	switch(selectedOption.index){
+		case 0:
+			setRadioTest(question_div, container, false);
+			break;
+		case 1:
+			setRadioTest(question_div, container, false, "successEditbox", "errorEditbox");
+			break;
+		case 2:
+			setRadioTest(question_div, container, true);
+			break;
 	}
-	function addOnClick(input_div, check){
-		var input = document.getElementById(input_div);
-		addInputBlock(input, undefined, check ? true : false);
-	}
-	function OnSelectionChange (select = undefined) {
-			var textArea = document.getElementById('textAnswer');
-			var selectedOption = select.options[select.selectedIndex];
-		
-			var container = document.getElementById('container');
-			var question_div = document.createElement('div');
-			question_div.id = 'question';
-			deleteDiv('question');
-			count_options = 0;
-		switch(selectedOption.index){
-			case 0:
-				setRadioTest(question_div, container, false);
-				break;
-			case 1:
-				setRadioTest(question_div, container, false, "successEditbox", "errorEditbox");
-				break;
-			case 2:
-				setRadioTest(question_div, container, true);
-				break;
-		}
-	}
-		function deleteDiv(id){
-		$('#'+id).remove();
-		count_options = 1;
-	}
+}
+	function deleteDiv(id){
+	$('#'+id).remove();
+	count_options = 1;
+}
 </script>
 	
 </html>
