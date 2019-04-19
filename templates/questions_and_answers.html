@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap - Prebuilt Layout</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap-4.0.0.js"></script>
+  <link href=  "../static/css/Tests.css" rel ="stylesheet">
+  <link href=   "../static/css/Page_of_courses.css" rel ="stylesheet">
+</head>
+<body>
+<div class="nav-panel">
+	  
+<hr>
+	<button type="button" class="back" href = "CoursePageTest.html">Вернуться к курсу</button>  
+	<testname>{{name_of_test}}</testname>
+		{{current_question}}/{{count_of_questions}}
+<hr>
+</div>
+<div class="QA">
+  <textarea name="question" cols="75" rows="5" id="textArea" onoutput=""> {{question}} </textarea>
+  <div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <div class="input-group-text">
+		      <input type="checkbox" aria-label="placeholder text">
+	        </div>
+    </div>
+		  <input type="text" class="form-control" placeholder="placeholder text">
+  </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="radio" aria-label="placeholder text">
+            </div>
+          </div>
+          <input type="text" class="form-control" placeholder="placeholder text">
+        </div>
+	<button type="button" class="submit_answer" href = "{{next_question}}">Ответить</button>
+  </div>
+
+</body>
+</html>

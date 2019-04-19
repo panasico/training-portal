@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+<title>constructor</title>
+<link href="../icon.png" rel="shortcut icon" type="image/x-icon">
+<link href="../../static/css/course_designer.css" rel="stylesheet">
+<link href="../../static/css/demo1.css" rel="stylesheet">
+<link href="../../static/css/index.css" rel="stylesheet">
+		<script src="../../static/scripts/constructor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<div class="main-layer">
+	  <div class="my-header">Конструктор курсов</div>
+			<div class="project-explorer-container">
+				<div class="project-explorer" style="margin: 30px 10px 0 10px">
+					<div><h3 class="h3" id="course_name">Название курса</h3></div>
+					<div><h5 class="h5" id="type_course">Название курса</h5></div>
+					<div class="pages-list">
+						<ul id="list-pages" style="padding: 0;">
+						</ul>
+					</div>
+					<div id="wb_CssMenu1">
+						<ul role="menubar">
+						  <li class="firstmain"  style="width: 136px;">
+								<a role="menuitem" class="withsubmenu" href="#" target="_self">Создать</a>
+								<ul role="menu">
+											<li class="firstitem">
+												<a role="menuitem" href="#" target="_self" onclick="addTextPage()">Страницу теории</a>
+											</li>
+											<li>
+												<a role="menuitem" href="#" target="_self" onclick="addTestPage()">Страницу тестов</a>
+											</li>
+										</ul>
+							</li>
+							<li  style="width: 136px;">
+								<a role="menuitem" class="withsubmenu" href="#" target="_self">Удалить</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+						<input class="orangeButton" type="button" value="Сохранить курс" style="display: block; margin: 220px auto 0 auto;width: 220px; height: 40px;" 
+							   >
+					</div>
+			</div>
+		
+	  <div class="constructor-panel">
+				<form style="width: 860px;height: 850px; float:left; margin: 30px 0 0 40px">
+					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок теста:</h3></div>
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id="header-page"></div>	
+					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Выберите тип тестовой страницы:</h3></div>
+					<div>	
+						<select autofocus style="width: 525px; height: 30px;" onchange="OnSelectionChange (this)">
+							<option>Тест с текстовым ответом</option>
+							<option>Тест с одним вариантом выбора</option>
+							<option>Тест с несколькими вариантами выбора</option>
+						</select>
+					</div>
+					<div id="container">
+						<div style="margin: 30px 0 15px 0;"><h3 class="h3">Введите вопрос:</h3></div>
+						<textarea name="comment" cols="100" rows="5" style="resize:none;" id="textAnswer"></textarea>
+						<div id="question">
+							<h3 class="h3">Введите варианты ответа:</h3>
+							<div id="options">
+								<div id="option1"><input id="input1" type="text" size="80" style="margin-top: 20px;" value="eeee"></div>
+								<div id="option2"><input id="input2" type="text" size="80" style="margin-top: 20px;" value="eeee"></div>
+							</div>
+							<button type="button" id = "add">Добавить</button>
+						</div>
+						
+					</div>
+					<div>
+						<input class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 100px auto 0 auto; width: 300px; height: 40px;" 
+							   >
+					</div>
+				</form>
+				
+			</div>
+	</div>
+</body>
+	<script>
+	var flag_open = start_init();
+	// получаем текущий pageId
+	var current_page = getLocalKey('current_page');
+	//получаем количество тестовых страниц	
+	var count_test_pages = getLocalKey('count_test_pages');
+	//получаем количество текстовых страниц
+	var count_text_pages = getLocalKey('count_text_pages');
+	
+	var count_pages = count_text_pages + count_test_pages;
+
+	//получаем листы данных страниц
+	var list_pageId = getLocalList('list_pageId');
+	var list_types = getLocalList('list_types');
+	var list_title = getLocalList('list_title');
+	var list_text = getLocalList('list_text');
+		
+	if (list_pageId !== []){	
+		//TEST
+		for (var i = 0; i < list_pageId.length; i++){
+			console.log(list_pageId[i]);
+			console.log(list_types[i]);
+			console.log(list_title[i]);
+			console.log(list_text[i]);
+		}
+	//добавляем в обозреватель листов страницы, уже созданные ранее
+		for (var i = 0; i < list_pageId.length; i++){
+			getListTitles(i, list_pageId, list_title);
+		}
+	}
+		
+	addTestPage();
+
+		
+	function addTestPage(){
+		count_test_pages++;
+		count_pages++;
+		//current_page = getCurrentPage();
+		for (var i = 0; i < list_pageId.length; i++){
+			document.getElementById(list_pageId[i]).classList.remove("currentPage");
+		}
+		//контейнер, в котором все страницы
+		var list_pages = document.getElementById('list-pages');
+		//создаем новую страницу
+		var new_page = document.createElement('li');
+		new_page.innerHTML = "Тест";
+		new_page.classList.add("pages");
+		new_page.classList.add("currentPage");
+		new_page.id = "page"+count_pages;
+		
+		list_pageId.push(new_page.id);
+		list_types.push("");
+		list_title.push(new_page.innerHTML);
+		list_text.push("");
+		
+		new_page.onclick = function(){
+			clickCurrentPage(new_page, list_pageId, list_title);
+		}
+		
+		current_page = new_page.id;
+		
+		if (count_test_pages > 1){
+			new_page.innerHTML +=" " + (count_test_pages-1);
+			document.getElementById("header-page").value = "Тест "+(count_test_pages);
+		}
+		
+		list_pages.appendChild(new_page);
+		
+		$('#list-pages').sortable({
+			 change: function( event, ui ) {
+				 //здесь надо повесить запоминание порядка при перетягивании
+			 }
+		});
+		localStorage.setItem('current_page', JSON.stringify(current_page));
+	}
+
+	function addTextPage(){
+		setLocalLists(list_pageId,list_types, list_title, list_text);
+		localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
+		window.location.href='text_designer.html';
+	}
+		//-----------------------------------------------------------------------------------------
+		//количество вариантов ответа на тест
+	var count_options = 2;
+	var max_options = 6;
+	var btn_add = document.getElementById('add');
+	btn_add.type = 'button';
+	btn_add.onclick = function(){
+		if(count_options < max_options){
+			var input_div = document.getElementById('options');
+			addInputBlock(input_div, undefined, false);
+		}
+	}
+	function setRadioTest(container, parent, check, style_success = undefined, style_error = undefined){
+		var question_div = document.createElement('div');
+		question_div.style.margin ='30px 0 15px 0';
+		
+		//добавление заголовка  "Выберите варианты ответа:"
+		var text_options = document.createElement('h3');
+		text_options.innerHTML = "Введите варианты ответа:";
+		text_options.classList.add("h3");
+		question_div.appendChild(text_options);
+		
+		var input_div = document.createElement('div'); 
+		input_div.id = 'options';
+		addInputBlock(input_div, style_success, check ? true : false);
+		addInputBlock(input_div, style_error, check ? true : false);
+		question_div.appendChild(input_div);
+		
+		var add_input = document.createElement('button');
+		add_input.type = "button";
+		add_input.innerHTML = "Добавить";
+		add_input.onclick = function() {
+			addInputBlock(input_div, style_error, check ? true : false);
+		};
+
+		container.appendChild(question_div);
+		container.appendChild(add_input);
+		parent.appendChild(container);
+		
+	}
+		//функция добавляет строку чекбокс, инпут текст и кнопку удалить вариант
+	function addInputBlock(parent, style_class = undefined, check=false){
+		//создаем контейнер для всего этого
+		var input_div = document.createElement('div');
+		count_options++;
+		input_div.id = 'option' + count_options;
+		
+
+		//создаем чекбокс
+		if (check){
+			style_class = "successEditbox";
+			var checkbox = document.createElement('input');
+			checkbox.type = 'checkbox';
+			checkbox.checked = true;
+			checkbox.id = "check" + count_options;
+			input_div.appendChild(checkbox);
+		}
+		
+		//создаем инпут текст
+		var input = document.createElement('input');
+		if (style_class == "successEditbox")
+			input.id = "succes-input";
+		else
+			input.id = "input" + count_options;
+		input.type = "text";
+		input.size = "80";
+		input.style.marginTop = "20px";
+		if (style_class !== undefined && !check)
+			input.classList.add(style_class);
+		input_div.appendChild(input);
+		
+		//создаем кнопку удалить
+		if (count_options > 2){
+			var delete_input = document.createElement('button');
+			delete_input.innerHTML = "Удалить";
+			delete_input.onclick = function(){
+				$('#'+input_div.id).remove();
+				count_options--;
+			};
+			input_div.appendChild(delete_input);
+		}
+		
+		
+		
+		//добавляем нашу линию ответа в родителя
+		parent.appendChild(input_div);
+	}
+	function addOnClick(input_div, check){
+		var input = document.getElementById(input_div);
+		addInputBlock(input, undefined, check ? true : false);
+	}
+	function OnSelectionChange (select = undefined) {
+			var textArea = document.getElementById('textAnswer');
+			var selectedOption = select.options[select.selectedIndex];
+		
+			var container = document.getElementById('container');
+			var question_div = document.createElement('div');
+			question_div.id = 'question';
+			deleteDiv('question');
+			count_options = 0;
+		switch(selectedOption.index){
+			case 0:
+				setRadioTest(question_div, container, false);
+				break;
+			case 1:
+				setRadioTest(question_div, container, false, "successEditbox", "errorEditbox");
+				break;
+			case 2:
+				setRadioTest(question_div, container, true);
+				break;
+		}
+	}
+		function deleteDiv(id){
+		$('#'+id).remove();
+		count_options = 1;
+	}
+</script>
+	
+</html>
+

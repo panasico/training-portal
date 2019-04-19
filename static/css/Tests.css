@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+body
+{
+   background-color: transparent;
+   color: #000000;
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+.QA{
+	padding-left: 500px;
+}
+testname{
+	
+	padding-left: 30px;
+	color:black;
+	font-family: "Exo 2";
+   	font-weight: bold;
+   	font-style: normal;
+}
+.nav-panel{
+	padding-left: 500px;
+}

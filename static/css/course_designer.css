@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2');
+
+input[type="text"]{
+	padding-left: 5px;
+}
+.developing{ 
+	display: inline-block; /* Строчно-блочный элемент */
+    position: relative; /* Относительное позиционирование */
+}
+.developing:hover::after { 
+ 	content: attr(data-title); 
+	position: absolute; /* Абсолютное позиционирование */
+    left: 20%; top: 30%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,1); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+}
+body{
+	background-image: url("../images/constructor_background.jpg");
+	margin: 0px;
+}
+.main-layer{
+	background-color: rgba(251,251,251,0.86);
+	width:1200px;height:966px;
+	margin: 0px auto;
+}
+.my-header {
+	width: 1200px;
+	padding-top: 15px;
+	height: 65px;
+	background-color:#0C5AA6;
+	text-align: center;
+	color:white;
+	font-family: "Exo 2";
+   	font-weight: bold;
+   	font-size: 35px;
+   	font-style: normal;
+}
+.project-explorer-container {
+	width: 300px;
+	height: 850px;
+	background-color:rgba(99,167,237,0.4);
+	text-align: center;
+	text-align-last: center;
+	float:left;
+}
+.investment {
+	margin-top:20px;
+	width: 400px;
+	height: 120px;
+	float: left;
+}
+.pages-list{
+	max-height:550px;
+	overflow-y: auto;
+}
+.project-explorer{
+	width: 275px;
+
+	display: block;
+	margin: 0 auto;
+	background-color:rgba(250,250,250,0.8);
+	text-align: center;
+	text-align-last: center;
+	border-width: 2px;
+	border-color: #dbdbdb; /* Цвет границы */ 
+    border-style: solid; /* Стиль границы */ 
+	float:left;
+}
+h3.h3
+{
+	color:rgb(0,45,86);
+	font-family: "Exo 2";
+	margin-bottom: 20px;
+}
+h5.H5{
+	font-family: "Exo 2";
+	margin-top: 20px;
+	font-size:18px; 
+	color:rgba(0,70,134,1.00); 
+}
+h5.h5
+{
+	color:rgba(13,107,192,1.00);
+	font-family: "Exo 2";
+	margin-top: 20px;
+	font-size: 14px;
+}
+
+
+.constructor-panel{
+	width: 900px;
+	height: 850px;
+	background-color:rgba(251,251,251,0.86);
+	text-align: left;
+	/*text-align-last: center;*/
+	float:right;
+}
+.pages {
+	display: block;
+	list-style-type: none;
+	margin: 0 auto;
+	width: 275px;
+	color:rgba(0,57,111,1.00);
+	font-family: "Exo 2";
+	font-size: 16px;
+	background-color:rgba(250,250,250,1);
+	line-height: 38px;
+	height: 38px;
+	text-align: center;
+	vertical-align: middle;
+}
+li.pages:hover{
+	background-color:rgb(51,122,183);
+	cursor: pointer;
+	color:white;
+}
+li.currentPage{
+	background-color:rgba(34,83,124,1.00);
+	color:white;
+}
+.errorEditbox{
+   border-color: red;
+   opacity: 1;
+}
+.successEditbox{
+   border-color: #1EBF0B;
+   opacity: 1;
+}
+
+#tags{
+  float:left;
+  border:1px solid #ccc;
+  padding:5px;
+  font-family:Arial;
+}
+#tags > span{
+  cursor:pointer;
+  display:block;
+  float:left;
+  color:#fff;
+  background:#789;
+  padding:5px;
+  padding-right:25px;
+  margin:4px;
+}
+#tags > span:hover{
+  opacity:0.7;
+}
+#tags > span:after{
+ position:absolute;
+ content:"×";
+ border:1px solid;
+ padding:2px 5px;
+ margin-left:3px;
+ font-size:11px;
+}
+#tags > input{
+  background:#fff;
+  border:0;
+  margin:4px;
+  padding:7px;
+  width:auto;
+}

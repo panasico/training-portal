@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap - Prebuilt Layout</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+	  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.0.0.js"></script>
+	<link href= "../static/css/demo1.css" rel="stylesheet">
+	<link href= "../static/css/index.css" rel="stylesheet">
+	<link href=  "../static/css/Page_of_courses.css" rel="stylesheet">
+</head>
+<body>
+  <!--<div class="container">
+	<div  style="position:absolute;left:51px;top:21px;width:389px;">
+			<h1 id="Heading"><a href="#" style="color:#FF9700;font-size:50px;" onclick="window.location.href='index.html';return false;">Training portal</a></h1>
+	</div>
+			
+			<form name="SiteSearch1_form" id="SiteSearch1_form" role="search" accept-charset="UTF-8" onsubmit="return searchPage(features)">
+				<input type="text" id="SiteSearch1" style="position:absolute;left:554px;top:44px;width:138px;height:16px;z-index:11;" name="SiteSearch1" value="" spellcheck="false" placeholder="&#1055;&#1086;&#1080;&#1089;&#1082; &#1087;&#1086; &#1087;&#1086;&#1088;&#1090;&#1072;&#1083;&#1091;" role="searchbox">
+				<input type="button" onclick="searchPage();return false;" name="Search" value="поиск" class="ButtonSearch" style="position:absolute;left:713px;top:45px;width:96px;height:25px;z-index:12;">
+			</form>
+			
+			<div id="LayerProfile" style="position:absolute;text-align:left;left:983px;top:32px;width:163px;height:50px;" onclick="window.location.href='profile';return false;" class="Pointer">
+				<div id="wb_Image1" style="position:absolute;left:116px;top:10px;width:33px;height:30px;">
+					<img src="../static/images/noavatar.png" id="Image1" alt="">
+				</div>
+				<div id="wb_Text1" style="position:absolute;left:17px;top:12px;width:89px;height:26px;z-index:1;">
+					<span class="textExo2">Профиль</span></div>
+			</div>
+    <div id="wb_CssMenu1" style="position:absolute;left:1px;top:117px;width:1201px;height:60px;z-index:20;">
+				<ul role="menubar">
+					<li class="firstmain">
+						<a role="menuitem" class="withsubmenu" href="#" target="_self">Программы и курсы</a>
+						<ul role="menu">
+							<li class="firstitem"><a role="menuitem" class="withsubmenu" href="#" target="_self">Курсы</a>
+								<ul role="menu">
+									<li class="firstitem">
+										<a role="menuitem" href="#" target="_self">Гумманитарные науки</a>
+									</li>
+									<li>
+										<a role="menuitem" href="#" target="_self">Бизнес</a>
+									</li>
+									<li>
+										<a role="menuitem" href="#" target="_self">Компьютерные науки</a>
+									</li>
+									<li class="lastitem">
+										<a role="menuitem" href="#" target="_self">Науки о данных</a>
+									</li>
+								</ul>
+							</li>
+							<li class="lastitem"><a role="menuitem" href="#" target="_self">&#1058;&#1077;&#1089;&#1090;&#1099;</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a role="menuitem" class="withsubmenu" href="#" target="_self">Мое обучение</a>
+						<ul role="menu">
+							<li class="firstitem">
+								<a role="menuitem" class="withsubmenu" href="#" target="_self">Индивидуальное</a>
+								<ul role="menu">
+									<li class="firstitem">
+										<a role="menuitem" href="#" target="_self">Мои курсы</a>
+									</li>
+									<li>
+										<a role="menuitem" href="#" target="_self">Мои тесты</a>
+									</li>
+									<li class="lastitem">
+										<a role="menuitem" href="#" target="_self">Домашняя работа</a>
+									</li>
+								</ul>
+							</li>
+							<li class="lastitem"><a role="menuitem" class="withsubmenu" href="#" target="_self">Корпоративное</a>
+								<ul role="menu">
+									<li class="firstitem">
+										<a role="menuitem" href="#" target="_self">Назначенные тесты</a>
+									</li>
+									<li class="lastitem">
+										<a role="menuitem" href="#" target="_self">Назначенные курсы</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a role="menuitem" class="withsubmenu" href="#" target="_self">Оценка</a>
+
+						<ul role="menu">
+							<li class="firstitem">
+								<a role="menuitem" href="#" target="_self">Аттестация</a>
+							</li>
+							<li class="lastitem">
+								<a role="menuitem" href="#" target="_self">Тестировани</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a role="menuitem" href="#" target="_self">Центр практики</a>
+					</li>
+					<li>
+						<a role="menuitem" href="#" target="_self">База знаний</a>
+					</li>
+					<li>
+						<a role="menuitem" href="#" target="_self">Контакты</a>
+					</li>
+				</ul>
+			</div>  
+  </div>-->
+  <div class="paige_of_course_name" id = "name_of_course">{{name_of_course}}</div>
+  <div class="project-explorer-container"> 
+	  <div class="project-explorer" style="margin: 30px 10px 0 10px">
+		  <div class="pages-list">
+		  <ul id="list-pages" style="padding: 0;">
+							<li class="pages" id="page0">{{name_of_page}}</li>
+						</ul>
+		  </div>
+	  </div>
+	</div>
+	
+<div class="theory-panel">
+  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
+	<textarea name="text_of_paige" cols="100" rows="15" id="textArea" onoutput=""> {{Theory}} </textarea>
+	<div class="link-list">
+		<ul class="col-xl-6" id="list-links" style="padding: 0;">
+			<a href= "{{docs}}">{{links_of_inserts}} </a>
+			</ul>
+	</div>
+  <div class="video">
+		  <iframe class="video" src="http://tv.adobe.com/embed/1221/24197/"></iframe>
+  </div>
+	
+</div>
+</body>
+</html>

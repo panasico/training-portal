@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap - Prebuilt Layout</title>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed --> 
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.0.0.js"></script>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+	<link href=   "../static/css/demo1.css" rel="stylesheet">
+	<link href=  "../static/css/index.css" rel="stylesheet">
+	<link href=   "../static/css/Page_of_courses.css" rel="stylesheet">
+  </head>
+  <body>
+  <div class="paige_of_course_name" id = "name_of_course">{{name_of_course}}</div>
+  <div class="project-explorer-container"> 
+	  <div class="project-explorer" style="margin: 30px 10px 0 10px">
+		  <div class="pages-list">
+		  <ul id="list-pages" style="padding: 0;">
+							<li class="pages" id="page0">{{name_of_page}}</li>
+			</ul>
+		  </div>
+	  </div>
+	</div>
+  <div class="theory-panel">
+	  <div class="page_title" id = "name_of_page">{{name_of_test}}</div>
+		 <div> <num_of_questions>{{count_of_questions}} вопросов</num_of_questions></div>
+    <div><score>Ваша оценка: {{score}}</score></div>
+    <button type="button" class="go_to_test" href = "{{test_page_questions}}" style="display: block; margin: 80px auto; width: 100px; height: 50px;">Начать тест</button>
+</div>
+	  
+  </body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile</title>
+<link href="../static/images/icon.png" rel="shortcut icon" type="image/x-ico=n">
+<link href="../static/css/simpleGridTemplate.css" rel="stylesheet" type="text/css">
+<script src="../static/scripts/popup.js"></script>
+</head>
+<body>
+<!-- Main Container -->
+<div class="container"> 
+  <!-- Hero Section -->
+ <div class="info">
+    <div class="profile_image"><img src="../static/images/profile.png" width="127" height="121" alt=""/></div> 
+    <div class="column">
+	  <!--<img src="images/profile.png" width="127" height="121" alt=""/-->
+      <h3 id="name_of_user">{{name}} {{surname}}</h3>
+      <h3 id="email_of_user">Email: {{email}}</h3>
+      <h3 id="tabel_number">Табельный номер: {{tnumber}}</h3>
+      <h3 id="profession_of_user">Специализация: {{specialization}}</h3>
+	  <h3 id="date_of_birth">Дата рождения: {{birth}}</h3>
+	  <!--<change> <a href= "changedata.html">Изменить данные </a></change>-->
+	<change> <a href= javascript:PopUpShow()>Изменить данные </a></change>
+	  <change> <a href= "changefoto.html">Изменить фото </a></change>
+		<form action="/logout">
+        <button name="Exit">Выход</button>
+    </form>
+  </div>
+</div>
+
+<div class="sign"> <h5><hr>Напоминания<hr></h5> </div>
+	
+  <!-- Stats Gallery Section -->
+  <div class="gallery">
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Назначено тестирование на завтра</h4>
+      <p class="tag">Информационные технологии, тест</p>
+    </div>
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Назначено тестирование на  неделе</h4>
+		<p class="tag">Компьютерные науки, тест</p>
+    </div>
+    <div class="thumbnail"> <a href="#"><img src=  "../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>В текущем месяце аттестация</h4>
+      <p class="tag">Информационные технологии, аттестация</p>
+      
+    </div>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>В текущем месяце аттестация</h4>
+      <p class="tag">Компьютерные науки, аттестация</p>
+      
+    </div>
+  </div>
+	
+  <div class="sign"> <h5><hr>Ваши курсы<hr></h5> </div>
+<!--Need progress bar-->
+  <div class="gallery">
+    <div class="thumbnail"> <a href="#"><img src="../static/images/IT.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Информационные технологии</h4>
+      <progress max="100" value="90"></progress>      
+    </div>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/nauka_dannih.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Наука о данных</h4>
+     <progress max="100" value="50"></progress>
+    </div>
+    <div class="thumbnail"> <a href="#"><img src="../static/images/computer.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Компьютерные науки</h4>
+     <progress max="100" value="80"></progress>
+     
+    </div>
+    <div class="thumbnail"> <a href="#"><img src= "../static/images/personality.jpg" alt="" width="2000" class="cards"/></a>
+      <h4>Личное развитие</h4>
+		<progress max="100" value="30"></progress>
+    </div>
+  </div>
+	<!-- Form for change data-->
+  <form name="Form1" method="post" action="/reg" enctype="application/x-www-form-urlencoded" id="Form1">
+			  <div class="wb_Text2" style="margin: 40px 0 0 auto;">Смена данных</div>
+				
+				<div id="surname-box"><input type="text" class="Editbox1" id="surname"  name="surname" value="" spellcheck="false" placeholder="   Фамилия"></div>
+				<div id="name-box"><input type="text" class="Editbox1" id="name" name="name" value="" spellcheck="false" placeholder="   Имя"></div>
+                <div><input type="email" class="Editbox1"  name="email" id="email" value="" spellcheck="false" placeholder="   E-mail" pattern=".+@globex.com" required></div>
+				<div id="tnumber-box"><input type="number" class="Editbox1" id="tnumber" name="tnumber" id="tnumber" value="" spellcheck="false" placeholder="   Табельный номер" min = "90000000" max="99999999"></div>
+				<div id="date-box"><input required type="text" class="Editbox1" placeholder="   Дата рождения" onfocus="(this.type='date')" id="date" name="date"/></div>
+			
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+
+				<div id="btn-box"><input type="submit" name="submit" value="Сохранить изменения" class="orangeButton" style="margin:30px auto 0 auto;height:50px;width:300px;"></div>
+</form>
+  
+</div>
+<!-- Main Container Ends -->
+</body>
+</html>

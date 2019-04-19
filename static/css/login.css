@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Chettan|Exo+2|Montserrat&subset=cyrillic');
+body
+{
+   margin: 0;
+   padding: 0;
+   background-image: url(../images/backgroung.jpg);
+	background-repeat: no-repeat;
+   background-size: 100% 100%;
+	min-height: 100vh;
+}
+#Layer1
+{
+   background-color: transparent;
+   background-image: url(../images/backgroung.jpg);
+   background-repeat: repeat-y;
+   background-position: left top;
+   background-size: 100% 100%;
+}
+
+#wb_Form1
+{
+   margin: 0 auto;
+   width:660px;
+   background-color: rgba(251,251,251,0.86);
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0 0 6px 6px;
+}
+.Editbox1
+{
+   width:427px;height:46px;
+   border: 1px solid #CCCCCD;
+   border-radius: 4px;
+   background-color: #FFFFFF;
+   background-image: none;
+   color :#3D3D3D;
+   font-family: "Courier New";
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 46px;
+   padding: 4px 4px 4px 4px;
+   display: block;
+   margin: 30px auto 0px auto;
+}
+.Editbox1:focus
+{
+   border-color: #66AFE9;
+   box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0px 0px 8px rgba(102,175,233,0.60);
+   outline: 0;
+}
+.Editbox1:placeholder
+{
+   color: #606060;
+   opacity: 1;
+}
+.Editbox1::-ms-input-placeholder
+{
+   color: #3D3D3D;
+}
+.errorText{
+	color: red;
+	display: block;
+	text-align: center;
+	font-family:'Exo 2';
+    font-weight:500;
+    font-size: 15px;
+}
+.errorEditbox{
+   border-color: red;
+   opacity: 1;
+}
+.successEditbox{
+   border-color: #1EBF0B;
+   opacity: 1;
+}
+.wb_Text2 
+{
+   color:#0C5AA6;
+   font-family:'Trebuchet MS';
+   font-size:24px;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 0;
+   text-align: center;
+}
+
+.wb_Text_link
+{
+color:#696969;font-family:'Exo 2';font-size:16px;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   padding: 0;
+   margin: 30px 0px 0px 50px;
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
