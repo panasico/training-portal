@@ -113,7 +113,9 @@ function sendTestPage() {
             title:   list_title[index];  // Заголовок страницы
             
             question:   // Текст вопроса
-
+			
+			var list_answer = getLocalList("list_answer");
+			var list_right_answer =  getLocalList("list_right_answer");
             ans:        // Текст вариантов ответа
                         // Если вариант ответа один - разделитель офк не нужен (Пример "Ответ1")
                         // Если вариантов ответа несколько - разделитель нужен. Разделителем будет |}|{ona| (Пример "Ответ1|}|{ona|Ответ2")

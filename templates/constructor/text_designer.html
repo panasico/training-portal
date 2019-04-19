@@ -32,7 +32,7 @@
 												<a role="menuitem" href="#" target="_self" onclick='addTextPage()'>Страницу теории</a>
 											</li>
 											<li>
-												<a role="menuitem" href="#" target="_self" onclick="sorry()">Страницу тестов</a>
+												<a role="menuitem" href="#" target="_self" onclick="addTestPage()">Страницу тестов</a>
 											</li>
 										</ul>
 							</li>
@@ -171,7 +171,7 @@ function addTextPage(){
 	}
 }
 function addTestPage(){
-	setLocalLists(list_pageId,list_types, list_title, list_text);
+	setLocalLists(list_pageId, list_types, list_title, list_text);
 	localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
 	window.location.href='test_designer.html';
 }
@@ -195,12 +195,6 @@ function savePage(){
 	
 	setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
 }
-function change(){
-	document.getElementById("btn_save_page").disabled = false;
-}
-function sorry(){
-	swal("Простите ☹", "Это пока что в разработке", "info");
-}
 function saveCourse(){
 	savePage();
 	swal({
@@ -223,7 +217,6 @@ function saveCourse(){
 	});
 
 }
-
 </script>
 </html>
 

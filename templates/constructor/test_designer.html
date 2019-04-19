@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <head>
 <title>constructor</title>
@@ -6,9 +6,10 @@
 <link href="../../static/css/course_designer.css" rel="stylesheet">
 <link href="../../static/css/demo1.css" rel="stylesheet">
 <link href="../../static/css/index.css" rel="stylesheet">
-		<script src="../../static/scripts/constructor.js"></script>
+<script src="../../static/scripts/constructor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
 <body>
@@ -36,24 +37,24 @@
 										</ul>
 							</li>
 							<li  style="width: 136px;">
-								<a role="menuitem" class="withsubmenu" href="#" target="_self">Удалить</a>
+								<a role="menuitem" class="withsubmenu" href="#" target="_self" onClick="sorry()">Удалить</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 				<div>
 						<input class="orangeButton" type="button" value="Сохранить курс" style="display: block; margin: 220px auto 0 auto;width: 220px; height: 40px;" 
-							   >
+							   onClick="saveCourse()">
 					</div>
 			</div>
 		
 	  <div class="constructor-panel">
 				<form style="width: 860px;height: 850px; float:left; margin: 30px 0 0 40px">
 					<div style="margin-bottom: 15px;"><h3 class="h3">Заголовок теста:</h3></div>
-					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id="header-page"></div>	
+					<div><input type="text" size="70" autofocus autocomplete="on" style="height: 25px;" value="   Новая страница" id="header-page" oninput="change()"></div>	
 					<div style="margin: 30px 0 15px 0;"><h3 class="h3">Выберите тип тестовой страницы:</h3></div>
 					<div>	
-						<select autofocus style="width: 525px; height: 30px;" onchange="OnSelectionChange (this)">
+						<select autofocus style="width: 525px; height: 30px;" onchange="OnSelectionChange (this)" oninput="change()">
 							<option>Тест с текстовым ответом</option>
 							<option>Тест с одним вариантом выбора</option>
 							<option>Тест с несколькими вариантами выбора</option>
@@ -62,19 +63,17 @@
 					<div id="container">
 						<div style="margin: 30px 0 15px 0;"><h3 class="h3">Введите вопрос:</h3></div>
 						<textarea name="comment" cols="100" rows="5" style="resize:none;" id="textAnswer"></textarea>
-						<div id="question">
+						<div id="question" oninput="change()">
 							<h3 class="h3">Введите варианты ответа:</h3>
 							<div id="options">
-								<div id="option1"><input id="input1" type="text" size="80" style="margin-top: 20px;" value="eeee"></div>
-								<div id="option2"><input id="input2" type="text" size="80" style="margin-top: 20px;" value="eeee"></div>
+								<div id="option1"><input id="input1" type="text" size="80" style="margin-top: 20px;"></div>
 							</div>
-							<button type="button" id = "add">Добавить</button>
+						  <button type="button" id="add">Добавить</button>
 						</div>
 						
 					</div>
 					<div>
-						<input class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 100px auto 0 auto; width: 300px; height: 40px;" 
-							   >
+						<input id="btn_save_page" class="orangeButton" type="button" value="Сохранить страницу" style="display: block; margin: 100px auto 0 auto; width: 300px; height: 40px;" onClick="savePage()">
 					</div>
 				</form>
 				
@@ -84,7 +83,7 @@
 <script>
 var flag_open = start_init();
 // получаем текущий pageId
-var current_page = getCurrentPage();
+var current_page = getLocalKey('current_page');
 //получаем количество тестовых страниц	
 var count_test_pages = getLocalKey('count_test_pages');
 //получаем количество текстовых страниц
@@ -97,7 +96,10 @@ var list_pageId = getLocalList('list_pageId');
 var list_types = getLocalList('list_types');
 var list_title = getLocalList('list_title');
 var list_text = getLocalList('list_text');
+var list_answer = getLocalList('list_answer');
+var list_right_answer = getLocalList('list_right_answer');
 
+if (list_pageId !== []){	
 //добавляем в обозреватель листов страницы, уже созданные ранее
 	for (var i = 0; i < list_pageId.length; i++){
 		getListTitles(list_pageId[i], list_pageId, list_title);
@@ -108,15 +110,16 @@ addTestPage();
 
 
 function addTestPage(){
-	//сохраняем страницу, если пользователь не нажал кнопку сохранить и нажал создать новую
+	flag_open = getLocalBool('flag_open');
+	
 	if(count_pages > 0){
 		savePage();
 		document.getElementById("btn_save_page").disabled = false;
 	}
-	
+
 	count_test_pages++;
 	count_pages++;
-	
+
 	current_page = getCurrentPage();
 	//удаляем у всех подсветку текущей страницы
 	for (var i = 0; i < list_pageId.length; i++){
@@ -141,9 +144,11 @@ function addTestPage(){
 		new_page.id = "page"+count_pages;
 
 		list_pageId.push(new_page.id);
-		list_types.push("");
+		list_types.push("test");
 		list_title.push(new_page.innerHTML);
 		list_text.push("");
+		list_answer.push("");
+		list_right_answer.push("");
 
 		new_page.onclick = function(){
 			clickCurrentPage(new_page.id);
@@ -153,10 +158,12 @@ function addTestPage(){
 
 		if (count_test_pages > 1){
 			new_page.innerHTML +=" " + (count_test_pages-1);
-			document.getElementById("header-page").value = "Тест "+(count_test_pages);
+			document.getElementById("header-page").value = "Тест "+(count_test_pages-1);
 		}
 
 		list_pages.appendChild(new_page);
+
+		document.getElementById('textAnswer').value = "";
 
 		$('#list-pages').sortable({
 			 change: function( event, ui ) {
@@ -169,33 +176,110 @@ function addTestPage(){
 
 function addTextPage(){
 	setLocalLists(list_pageId,list_types, list_title, list_text);
+	setLocalLists1(list_answer,list_right_answer);
 	localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
 	window.location.href='text_designer.html';
 }
+
 function savePage(){
 	current_page = getCurrentPage();
 	//buffers
 	var index = indexOf(list_pageId,current_page);
 	console.log(index); //debug
+	
 	var title = document.getElementById('header-page').value;
-	var text =  document.getElementById('textArea').value;
+	var text =  document.getElementById('textAnswer').value;
+	
 	//внесение изменений
-	list_title[index] = document.getElementById('header-page').value;
-	list_text[index] = document.getElementById('textArea').value;
+	list_title[index] = title;
+	list_text[index] = text;
+	
+	var title_expl = document.getElementById(current_page);
+	title_expl.innerHTML = title;
+	
+
 	console.log(title); //debug
 	console.log(text); //debug
 
 	document.getElementById("btn_save_page").disabled = true;
-
+	
+	//--------------------------получение ответов--------------------------------
+	var answer = "";
+	var succ_ans = "";
+		
+	if ($("#succes-input").length){
+		succ_ans += 1;
+		answer += document.getElementById("succes-input").value
+		for (var i = 1; i < 10; i++){
+			if($("#input"+i).length){
+				var input = document.getElementById("input"+i).value;
+				if(input !== ""){ 
+						answer += "|}|{ona|";
+						answer += input;
+				}
+			}
+		}
+	}
+	else{
+		for (var i = 1; i < 10; i++){
+			var check = true;
+			if($("#input"+i).length){
+				if ($("#check1").length){
+					if (document.getElementById("check"+i).checked)
+						check = true;
+					else
+						check = false;
+				}
+				var input = document.getElementById("input"+i).value;
+				if(input !== ""){ 
+					if (check === true){
+						succ_ans += i;
+					}
+					if (i !== 1)
+						answer += "|}|{ona|";
+					answer += input;
+				}
+			}
+		}
+	}
+	//----------------------------------------------------------
+	console.log(answer); //debug
+	console.log(succ_ans); //debug
+	
+	var index_test = indexOfTest(list_pageId,current_page,list_types);
+	list_answer[index_test] = answer;
+	list_right_answer[index_test] = succ_ans;
+	
 	setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
+	setLocalLists1(list_answer,list_right_answer);
 }
-function change(){
-	document.getElementById("btn_save_page").disabled = false;
+		
+function saveCourse(){
+	savePage();
+	swal({
+		title: "Хорошая работа!",
+			text: "Курс сохраняется...",
+			icon: "success",
+		  buttons: {
+			catch: {
+			  text: "OK",
+			  value: "OK",
+			},
+		  },
+	})
+	.then((value) => {
+	  switch (value) {
+		case "OK":
+		 window.location.href='../index.html';
+		  break;
+	  }
+	});
+
 }
 //-----------------------------------------------------------------------------------------
-	//количество вариантов ответа на тест
-var count_options = 2;
-var max_options = 6;
+//количество вариантов ответа на тест
+var count_options = 1;
+var max_options = 10;
 var btn_add = document.getElementById('add');
 btn_add.type = 'button';
 btn_add.onclick = function(){
@@ -216,7 +300,9 @@ function setRadioTest(container, parent, check, style_success = undefined, style
 
 	var input_div = document.createElement('div'); 
 	input_div.id = 'options';
-	addInputBlock(input_div, style_success, check ? true : false);
+
+	if ((style_success !== undefined && style_error !== undefined) || check)
+		addInputBlock(input_div, style_success, check ? true : false);
 	addInputBlock(input_div, style_error, check ? true : false);
 	question_div.appendChild(input_div);
 
@@ -252,7 +338,7 @@ function addInputBlock(parent, style_class = undefined, check=false){
 
 	//создаем инпут текст
 	var input = document.createElement('input');
-	if (style_class == "successEditbox")
+	if (style_class == "successEditbox" && !check)
 		input.id = "succes-input";
 	else
 		input.id = "input" + count_options;
@@ -264,7 +350,10 @@ function addInputBlock(parent, style_class = undefined, check=false){
 	input_div.appendChild(input);
 
 	//создаем кнопку удалить
-	if (count_options > 2){
+	var flag_count_delete = 2;
+	if (style_class === undefined)
+		flag_count_delete = 1;
+	if (count_options > flag_count_delete){
 		var delete_input = document.createElement('button');
 		delete_input.innerHTML = "Удалить";
 		delete_input.onclick = function(){

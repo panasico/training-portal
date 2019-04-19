@@ -14,6 +14,7 @@ function getListTitles(pageID, list_pageID, list_titles){
 				 //здесь надо повесить запоминание порядка при перетягивании
 			 }
 		});
+	console.log(pageID);
 }
 
 function getLocalList(key){
@@ -42,7 +43,10 @@ function setLocalLists(list_pageId, list_types, list_title, list_text){
 	localStorage.setItem('list_title', JSON.stringify(list_title));
 	localStorage.setItem('list_text', JSON.stringify(list_text));
 }
-
+function setLocalLists1(list_answer, list_right_answer){
+	localStorage.setItem('list_answer', JSON.stringify(list_answer));
+	localStorage.setItem('list_right_answer', JSON.stringify(list_right_answer));
+}
 function start_init(){
 	//получаем название курса
 	document.getElementById('course_name').innerHTML = getLocalKey('course_name');
@@ -72,3 +76,19 @@ function indexOf(list, object){
 			return i;
 	return -1;
 }
+function indexOfTest(list_pageId, object, list_types){
+	for (var i = 0, j = -1; i < list_pageId.length; i++)
+		if(list_types[i] === 'text')
+			j++;
+		if(list_pageId[i] === object)
+			return j;
+	return -1;
+}
+
+function change(){
+	document.getElementById("btn_save_page").disabled = false;
+}
+function sorry(){
+	swal("Простите ☹", "Это пока что в разработке", "info");
+}
+
