@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled Document</title>
+    <!-- Bootstrap -->
+	  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<link href= "css/bootstrap-4.0.0.css" rel="stylesheet">
+	<script src= "js/jquery-3.2.1.min.js"></script>
+	<script src= "js/popper.min.js"></script>
+	<script src= "js/bootstrap-4.0.0.js"></script>
+	<link href=  "../../training-portal/static/css/demo1.css" rel="stylesheet">
+	<link href="../../training-portal/static/css/index.css" rel="stylesheet">
+	<link href="../../training-portal/static/css/Page_of_courses.css" rel="stylesheet">
+	
+  </head>
+  <body>
+  	<!-- body code goes here -->
+<div class="paige_of_course_name" id = "name_of_course">{{name_of_course}}</div>
+  <div class="project-explorer-container"> 
+	  <div class="project-explorer" style="margin: 30px 10px 0 10px">
+		  <!--Список страниц-->
+		  <div class="pages-list">
+		  <ul id="list-pages" style="padding: 0;">
+							<li class="pages" id="page0">{{name_of_page}}</li>
+			</ul>
+		  </div>
+	  </div>
+  </div>
+<div class="theory-panel"> 
+	  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
+  <textarea name="text_of_paige" cols="100" rows="7" id="textArea"> {{Question}} </textarea>
+	<!--Список ответов-->
+	<div class="link-list col-xl-10">
+		<ul class="col-xl-6" id="list-links" style="padding: 0;">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" aria-label="placeholder text"> <answer id = "answer">{{answer}}</answer>
+                </div>
+			  </div>
+			</div>
+        </ul>
+	
+   </div>
+	<form action="" method="post">
+	<button type="button" name="back" value="back">Назад</button>
+	<button type="button" name="forward" value="forward">Вперёд</button>
+	<button type="button" name="send" value="send">Отправить</button>
+</form>
+</div>
+	
+  </body>
+</html>
