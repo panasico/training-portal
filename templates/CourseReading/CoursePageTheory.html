@@ -9,45 +9,50 @@
     <!-- Bootstrap -->
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap-4.0.0.js"></script>
-	<link href="css/bootstrap-4.0.0.css" rel="stylesheet">
-	<link href=  "../../training-portal/static/css/demo1.css" rel="stylesheet">
-	<link href=  "../../training-portal/static/css/index.css" rel="stylesheet">
-	<link href=   "../../training-portal/static/css/Page_of_courses.css" rel="stylesheet">
+	<link href="../../static/css/bootstrap-4.0.0.css" rel="stylesheet">
+	<link href=  "../../static/css/demo1.css" rel="stylesheet">
+	<link href=  "../../static/css/index.css" rel="stylesheet">
+	<link href=   "../../static/css/Page_of_courses.css" rel="stylesheet">
   </head>
   <body>
   	<!-- body code goes here -->
-  <div class="paige_of_course_name" id = "name_of_course">{{name_of_course}}</div>
-  <div class="project-explorer-container"> 
-	  <div class="project-explorer" style="margin: 30px 10px 0 10px">
-		  <div class="pages-list">
-		  <ul id="list-pages" style="padding: 0;">
-							<li class="pages" id="page0">{{name_of_page}}</li>
-			</ul>
+  <div class="main-layer">
+	  <div class="paige_of_course_name" id = "name_of_course">{{name_of_course}}</div>
+		  <div class="project-explorer-container" id="project_column"> 
+			  <div class="project-explorer" style="margin: 30px 10px 0 10px">
+				  <div class="pages-list">
+				  <ul class="col-xl-12" id="list-pages" style="padding: 0;">
+									<li class="pages" id="page0">{{name_of_page}}</li>
+					</ul>
+				  </div>
+			  </div>
 		  </div>
-	  </div>
-  </div>
-	
-<div class="theory-panel">
-  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
-	<textarea name="text_of_paige" cols="100" rows="15" id="textArea"> {{Theory}} </textarea>
-	<header_text_addons> Дополнителтные материалы: </header_text_addons>
-	<div class="link-list">
-		<ul class="col-xl-6" id="list-links" style="padding: 0;">
-			<a href= "{{docs}}">{{links_of_inserts}} </a>
-	  </ul>
-	</div>
-  <div class="video">
-		  <iframe class="video" src="http://tv.adobe.com/embed/1221/24197/"></iframe>
-  </div>
-<form action="" method="post">
-	<button type="button" name="back" value="back">Назад</button>
-	<button type="button" name="forward" value="forward">Вперёд</button>
-</form>
+		<div class="theory-panel" id ="theory_column">
+		  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
+		  <div><textarea name="text_of_paige" cols="100" rows="15" id="textArea" readonly style="resize:none;overflow-y: auto; border-style:none;"> {{Theory}} </textarea></div>
+		  <div>СЮДА НАДО ДОБАВИТЬ ФОТО</div>
+		  <div><header_text_addons> Дополнителтные материалы: </header_text_addons></div>
+			<div class="link-list">
+				<ul class="col-xl-6" id="list-links" style="padding: 0;">
+					<a href= "{{docs}}">{{links_of_inserts}} </a>
+			  </ul>
+			</div>
+		  <div class="video">
+				  <iframe class="video" src="http://tv.adobe.com/embed/1221/24197/"></iframe>
+		  </div>
+		<form action="" method="post">
+		  <button type="button" name="back" value="back" class="next_back_btn"><img style="transform: rotate(180deg);" src="../../static/images/course_next.png" alt="Вперед"/></button>
+			<button type="button" name="forward" value="forward"  class="next_back_btn" style="float:right;"><img src="../../static/images/course_next.png" alt="Вперед"/></button>
+		</form>
+		</div>
 </div>
-
-
-	
   </body>
+<script>
+/*var size_column = document.getElementById("theory_column").height;
+alert(size_column);
+document.getElementById("project_column").height = size_column;*/
+</script>
 </html>
