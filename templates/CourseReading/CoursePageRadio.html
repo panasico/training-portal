@@ -37,13 +37,13 @@
 	<!--Список ответов-->
 	<div class="link-list col-xl-10">
 		<ul class="col-xl-6" id="list-links" style="padding: 0;">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <input type="radio" aria-label="placeholder text"> <answer id = "answer">{{answer}}</answer>
-                </div>
-			  </div>
-			</div>
+            <div class="input-group mb-3">
+    			<div class="input-group-prepend">
+      				<div id="option_list">
+						<div><label><input type="radio" aria-label="placeholder text" id="caption0"> {{Answer0}}</label></div>
+      				</div>
+    			</div>
+			</div>	
         </ul>
 	
    </div>
@@ -53,4 +53,30 @@
 </div>
 	  </div>
   </body>
+		<script>
+		var count_options = 0;
+		
+		var count_options = 0;
+		
+		function addOption(answer){
+		//<div><label><input type="checkbox" aria-label="placeholder text" id="caption0"> {{Answer0}}</label></div>
+			var container = document.getElementById("option_list");
+			count_options++;
+			var div = document.createElement("div");
+			var label = document.createElement("label");
+			var radio = document.createElement('input'); 
+
+			radio.type = 'radio'; 
+			radio.checked = false; 
+			radio.id = "radio" + count_options; //опционально
+
+			label.appendChild(radio);
+			label.innerHTML += answer;
+			
+			div.appendChild(label);
+			container.appendChild(div);
+	}
+	//test	
+	addOption("testAnswer1");
+	</script>
 </html>

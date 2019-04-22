@@ -33,21 +33,41 @@
 	  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
   <textarea name="text_of_paige" cols="100" rows="7" id="textArea"> {{Question}} </textarea>
 	<!--Список ответов-->
-	<div class="link-list col-xl-10">
-		<ul class="col-xl-6" id="list-links" style="padding: 0;">
             <div class="input-group mb-3">
     			<div class="input-group-prepend">
-      				<div class="input-group-text">
-        			<input type="checkbox" aria-label="placeholder text"> <answer id = "answer">{{answer}}</answer>
+      				<div id="option_list">
+						<div><label><input type="checkbox" aria-label="placeholder text" id="caption0"> {{Answer0}}</label></div>
       				</div>
     			</div>
-			</div>
-        </ul>	
-   </div>
+			</div>	
 	<form action="" method="post">
 	<button type="button" name="send" value="send">Отправить</button>
 </form>
 </div>
 </div>
 </body>
+	<script>
+		var count_options = 0;
+		
+		function addOption(answer){
+		//<div><label><input type="checkbox" aria-label="placeholder text" id="caption0"> {{Answer0}}</label></div>
+			var container = document.getElementById("option_list");
+			count_options++;
+			var div = document.createElement("div");
+			var label = document.createElement("label");
+			var checkbox = document.createElement('input'); 
+
+			checkbox.type = 'checkbox'; 
+			checkbox.checked = false; 
+			checkbox.id = "check" + count_options; //опционально
+
+			label.appendChild(checkbox);
+			label.innerHTML += answer;
+			
+			div.appendChild(label);
+			container.appendChild(div);
+	}
+	//test	
+	addOption("testAnswer1");
+	</script>
 </html>
