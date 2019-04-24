@@ -24,9 +24,12 @@
 				<div style="margin: 60px auto 40px auto;width:660px;">
 					<input type="text" class="Editbox1" name="username" value="" spellcheck="false" placeholder="   &#1051;&#1086;&#1075;&#1080;&#1085;">
 					<input type="password" class="Editbox1" name="password" value="" spellcheck="false" placeholder="   &#1055;&#1072;&#1088;&#1086;&#1083;&#1100;">
+					<!-- #wrong login-->
+						<div style="color:#D00003;font-size:15px;width:660px; text-align: center;"><span>Неверный логин или пароль!</span></div>
+					
 				</div>
 
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
 
                 <input type="submit" name="submit" value="Войти" class="orangeButton" style="width:150px;height:50px;margin:0 auto;">
 				<div  style="height:19px; width:660px;">

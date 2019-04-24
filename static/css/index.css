@@ -184,6 +184,13 @@ body
    background-image: none;
    border: 0px #2E6DA4 #119CF1D019AEB47543B400;
 }
+#wb_CssMenu1 .firstitem:disabled a
+{
+   color: #FFFFFF;
+   background-color: #A6A6A6;
+   background-image: none;
+   border: 0px #2E6DA4 #119CF1D019AEB47543B400;
+}
 #wb_CssMenu1 li.firstmain
 {
    padding-left: 0px;
@@ -270,6 +277,13 @@ body
 #wb_CssMenu1 ul ul :hover a, #wb_CssMenu1 ul ul a:hover, #wb_CssMenu1 ul ul :hover ul :hover a, #wb_CssMenu1 ul ul :hover ul a:hover, #wb_CssMenu1 ul ul :hover ul :hover ul :hover a, #wb_CssMenu1 ul ul :hover ul :hover ul a:hover, #wb_CssMenu1 ul ul :hover ul :hover ul :hover ul :hover a, #wb_CssMenu1 ul ul :hover ul :hover ul :hover ul a:hover
 {
    background-color: #679ED2;
+   background-image: none;
+   border: 1px solid #679ED2;
+   color: #FFFFFF;
+}
+#wb_CssMenu1 ul ul :disabled ul :hover ul a:disabled, #wb_CssMenu1 ul ul :disabled ul :disabled ul :disabled ul :disabled a, #wb_CssMenu1 ul ul :disabled ul :disabled ul :disabled ul a:disabled
+{
+   background-color: #AAAAAA;
    background-image: none;
    border: 1px solid #679ED2;
    color: #FFFFFF;
