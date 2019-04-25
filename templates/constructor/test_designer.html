@@ -197,13 +197,13 @@
 					}
 					break;
 				case "text":
-					setTest(question_div, container, true);
+					setTest(question_div, container, false);
 					var buf_list_answer = list_answer[index_test].split("|}|{ona|");
 					//alert(buf_list_answer);
 					for(var i = 0; i < buf_list_answer.length; i++){
-						if(i > 1){
+						if(i > 0){
 							var input_div = document.getElementById("options");
-							addInputBlock(input_div, undefined, true);
+							addInputBlock(input_div, undefined, false);
 						}
 						var option = document.getElementById("input"+(i+1));
 						option.value = buf_list_answer[i];
