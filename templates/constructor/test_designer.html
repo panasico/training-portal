@@ -56,8 +56,8 @@
 				<div style="width: 400px; float:left;">
 					<div><h3 class="h3">Выберите тип тестовой страницы:</h3></div>
 					<div style="margin: 15px 0 15px 0;">
-						<select autofocus style="width: 400px; height: 30px;" onchange="OnSelectionChange (this)" oninput="change()">
-							<option>Тест с текстовым ответом</option>
+						<select autofocus style="width: 400px; height: 30px;" onchange="OnSelectionChange (this)" oninput="change()" id="select_some_type">
+							<option value="1">Тест с текстовым ответом</option>
 							<option>Тест с одним вариантом выбора</option>
 							<option>Тест с несколькими вариантами выбора</option>
 						</select>
@@ -92,6 +92,11 @@
 </div>
 </body>
 <script>
+	var count_options = 1;
+	var max_options = 10;
+	
+	
+	
 	var flag_open = start_init();
 	// получаем текущий pageId
 	var current_page = getLocalKey('current_page');
@@ -105,11 +110,12 @@
 	var list_text = getLocalList('list_text');
 	
 	var list_answer = getLocalList('list_answer');
+	var list_types_test = getLocalList('list_types_test');
 	var list_right_answer = getLocalList('list_right_answer');
 	var list_points = getLocalList('list_points');
 
 	if (list_pageId !== []){
-//добавляем в обозреватель листов страницы, уже созданные ранее
+		//добавляем в обозреватель листов страницы, уже созданные ранее
 		for (var i = 0; i < list_pageId.length; i++){
 			getListTitles(list_pageId[i], list_pageId, list_title);
 		}
@@ -117,35 +123,102 @@
 
 	addTestPage();
 
-
 	function addTestPage(){
 		//setLocalLists(list_pageId, list_types, list_title, list_text);
 
 		flag_open = getLocalBool('flag_open');
-
-		if(count_test_pages > 0  && !(/text./.test(current_page))){
-			savePage();
-			document.getElementById("btn_save_page").disabled = false;
-		}
+		current_page = getCurrentPage();
+		console.log("flag_open:"+flag_open);
 
 		count_test_pages++;
 
-		current_page = getCurrentPage();
-		
 		//удаляем у всех подсветку текущей страницы
-		for (var i = 0; i < list_pageId.length; i++){
-			document.getElementById(list_pageId[i]).classList.remove("currentPage");
-		}
+		popCurrentClass(list_pageId);
+		
 		//если мы открываем ранее созданную страницу
 		if (flag_open){
 			var index = indexOf(list_pageId, current_page);
+			var index_test = indexOfTest(list_pageId, current_page); 
+			var type_of_test = list_types_test[index_test];
+			alert(type_of_test);
+
 			document.getElementById(current_page).classList.add("currentPage");
 			document.getElementById("header-page").value = list_title[index];
-			document.getElementById('textArea').value = list_text[index];
+			document.getElementById('textAnswer').value = list_text[index];
+			document.getElementById("points").value = list_points[index_test];
+			
+			var container = document.getElementById('container');
+			var question_div = document.createElement('div');
+			question_div.id = 'question';
+			deleteDiv('question');
+			count_options = 0;
+			switch(type_of_test){
+				case "radio":
+					//alert('switch to radio');
+					setTest(question_div, container, false, "successEditbox", "errorEditbox");
+					var buf_list_answer = list_answer[index_test].split("|}|{ona|");
+					//alert(buf_list_answer);
+					for(var i = 0; i < buf_list_answer.length; i++){
+						if(i > 1){
+							var input_div = document.getElementById("options");
+							addInputBlock(input_div, "errorEditbox", false);
+						}
+						
+						var option;
+						if(i == 0)
+							option = document.getElementById("succes-input");
+						else
+							option = document.getElementById("input"+(i+1));
+						option.value = buf_list_answer[i];
+					}
+					break;
+					
+				case "checkbox":
+					//alert('switch to checkbox');
+					setTest(question_div, container, true);
+					var buf_list_answer = list_answer[index_test].split("|}|{ona|");
+					//alert(buf_list_answer);
+					for(var i = 0; i < buf_list_answer.length; i++){
+						if(i > 1){
+							var input_div = document.getElementById("options");
+							addInputBlock(input_div, undefined, true);
+						}
+						for(var j = 0; j < list_right_answer[index_test].length; j++){
+							//alert(list_right_answer[index_test][j]);
+							if (list_right_answer[index_test][j] == i+1){
+								document.getElementById("check"+(i+1)).checked = true;
+								break;
+							}
+							else
+								document.getElementById("check"+(i+1)).checked = false;
+						}
+						var option = document.getElementById("input"+(i+1));
+						option.value = buf_list_answer[i];
+					}
+					break;
+				case "text":
+					setTest(question_div, container, true);
+					var buf_list_answer = list_answer[index_test].split("|}|{ona|");
+					//alert(buf_list_answer);
+					for(var i = 0; i < buf_list_answer.length; i++){
+						if(i > 1){
+							var input_div = document.getElementById("options");
+							addInputBlock(input_div, undefined, true);
+						}
+						var option = document.getElementById("input"+(i+1));
+						option.value = buf_list_answer[i];
+					}
+					break;
+				
+			}
 			localStorage.setItem('flag_open', JSON.stringify(false));
 		}
 		else{
-			
+			if(count_test_pages > 1 && !(/text.+/.test(current_page))){
+				savePage();
+				document.getElementById("btn_save_page").disabled = false;
+			}
+			$("#select_some_type").val(1);
 			//контейнер, в котором все страницы
 			var list_pages = document.getElementById('list-pages');
 			//создаем новую страницу
@@ -154,19 +227,20 @@
 			new_page.classList.add("pages");
 			new_page.classList.add("currentPage");
 			new_page.id = "test"+count_test_pages;
-
+			new_page.onclick = function(){
+				savePage();
+				clickCurrentPage(new_page.id);
+			}
+			
 			list_pageId.push(new_page.id);
 			list_types.push("test");
 			list_title.push(new_page.innerHTML);
 			list_text.push("");
 			
 			list_answer.push("");
+			list_types_test.push("text");
 			list_right_answer.push("");
 			list_points.push(1);
-
-			new_page.onclick = function(){
-				//clickCurrentPage(new_page.id);
-			}
 
 			current_page = new_page.id;
 
@@ -174,10 +248,10 @@
 				new_page.innerHTML +=" " + (count_test_pages-1);
 				document.getElementById("header-page").value = "Тест "+(count_test_pages-1);
 			}
-
-			list_pages.appendChild(new_page);
-
+			
 			document.getElementById('textAnswer').value = "";
+			
+			list_pages.appendChild(new_page);
 
 			$('#list-pages').sortable({
 				change: function( event, ui ) {
@@ -195,35 +269,45 @@
 			question_div.id = 'question';
 			deleteDiv('question');
 			count_options = 0;
-			setRadioTest(question_div, container, false);
+			setTest(question_div, container, false);
 		}
 	}
 
 	function addTextPage(){
 		savePage();
 		localStorage.setItem('count_test_pages', JSON.stringify(count_test_pages));
-		window.location.href='text_designer.html';
+		window.location.href='/constructor/text_designer';
 	}
 
 	function savePage(){
+		alert("save page test!");
+		var type_test = "";
 		current_page = getCurrentPage();
+		console.log("current_page(save):"+current_page); //debug
+		
 		//buffers
 		var index = indexOf(list_pageId,current_page);
-		console.log(index); //debug
+		console.log("index(save):"+index); //debug
 
 		var title = document.getElementById('header-page').value;
 		var text =  document.getElementById('textAnswer').value;
 
 		//внесение изменений
 		list_title[index] = title;
-		list_text[index] = text;
-
+		console.log("title(save):"+title); //debug
+		
 		var title_expl = document.getElementById(current_page);
 		title_expl.innerHTML = title;
+		
 
+		list_text[index] = text;
+		console.log("text(save):"+text); //debug
 
-		console.log(title); //debug
-		console.log(text); //debug
+		var page = document.getElementById(current_page);
+		/*page.onclick = function(){
+				savePage();
+				clickCurrentPage(page.id);
+			}*/
 
 		document.getElementById("btn_save_page").disabled = true;
 
@@ -232,6 +316,7 @@
 		var succ_ans = "";
 
 		if ($("#succes-input").length){
+			type_test = "radio";
 			succ_ans += 1;
 			answer += document.getElementById("succes-input").value
 			for (var i = 1; i < 10; i++){
@@ -249,10 +334,14 @@
 				var check = true;
 				if($("#input"+i).length){
 					if ($("#check1").length){
+						type_test = "checkbox";
 						if (document.getElementById("check"+i).checked)
 							check = true;
 						else
 							check = false;
+					}
+					else{
+						type_test = "text";
 					}
 					var input = document.getElementById("input"+i).value;
 					if(input !== ""){
@@ -270,16 +359,17 @@
 		console.log("answer", answer); //debug
 		console.log("succ_ans", succ_ans); //debug
 
-		var index_test = Number(current_page.toString().slice(-1)) - 1;
+		var index_test = indexOfTest(list_pageId,current_page);
 		list_answer[index_test] = answer;
 		list_right_answer[index_test] = succ_ans;
+		list_types_test[index_test] = type_test;
 		
 		var points = document.getElementById("points").value;
 		console.log("points", points); //debug
 		list_points[index_test] = points;
 		
 		setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
-		setLocalLists1(list_answer,list_right_answer, list_points);
+		setLocalListsTest(list_answer,list_right_answer, list_points, list_types_test);
 	}
 
 	function saveCourse() {
@@ -305,18 +395,15 @@
 		});
 	}
 	//-----------------------------------------------------------------------------------------
-	//количество вариантов ответа на тест
-	var count_options = 1;
-	var max_options = 10;
-	var btn_add = document.getElementById('add');
+	/*var btn_add = document.getElementById('add');
 	btn_add.type = 'button';
 	btn_add.onclick = function(){
 		if(count_options < max_options){
 			var input_div = document.getElementById('options');
 			addInputBlock(input_div, undefined, false);
 		}
-	}
-	function setRadioTest(container, parent, check, style_success = undefined, style_error = undefined){
+	}*/
+	function setTest(container, parent, check, style_success = undefined, style_error = undefined){
 		var question_div = document.createElement('div');
 		question_div.style.margin ='30px 0 15px 0';
 
@@ -334,17 +421,19 @@
 		addInputBlock(input_div, style_error, check ? true : false);
 		question_div.appendChild(input_div);
 
+		var add_div = document.createElement('div');
 		var add_input = document.createElement('button');
 		add_input.type = "button";
 		add_input.innerHTML = "Добавить";
 		add_input.onclick = function() {
 			addInputBlock(input_div, style_error, check ? true : false);
 		};
-
+		add_div.appendChild(add_input);
+		
 		container.appendChild(question_div);
-		container.appendChild(add_input);
+		container.appendChild(add_div);
+		
 		parent.appendChild(container);
-
 	}
 	//функция добавляет строку чекбокс, инпут текст и кнопку удалить вариант
 	function addInputBlock(parent, style_class = undefined, check=false){
@@ -411,13 +500,13 @@
 		count_options = 0;
 		switch(selectedOption.index){
 			case 0:
-				setRadioTest(question_div, container, false);
+				setTest(question_div, container, false);
 				break;
 			case 1:
-				setRadioTest(question_div, container, false, "successEditbox", "errorEditbox");
+				setTest(question_div, container, false, "successEditbox", "errorEditbox");
 				break;
 			case 2:
-				setRadioTest(question_div, container, true);
+				setTest(question_div, container, true);
 				break;
 		}
 	}

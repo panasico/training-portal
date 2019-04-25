@@ -1,3 +1,4 @@
+//функция добавляет все уже созданные страницы при переходах
 function getListTitles(pageID, list_pageID, list_titles){
     var index = indexOf(list_pageID,pageID);
     var list_pages = document.getElementById('list-pages');
@@ -5,8 +6,10 @@ function getListTitles(pageID, list_pageID, list_titles){
     new_page.innerHTML = list_titles[index];
     new_page.classList.add("pages");
     new_page.id = pageID;
+	//alert("pageID:"+pageID+" | title:"+list_titles[index]);
     new_page.onclick = function(){
-        //clickCurrentPage(pageID);
+		savePage();
+        clickCurrentPage(pageID);
     }
     list_pages.appendChild(new_page);
     $('#list-pages').sortable({
@@ -15,7 +18,23 @@ function getListTitles(pageID, list_pageID, list_titles){
         }
     });
 }
+//фукнция клика по странице в обозревателе страниц
+function clickCurrentPage(current_page){
+    localStorage.setItem('flag_open', JSON.stringify(true));
+    localStorage.setItem('current_page', JSON.stringify(current_page));
+	
+	if (/test.+/.test(current_page)){
+		alert("click to teSt");
+		//setLocalLists1(list_answer,list_right_answer, list_points);
+    	window.location.href='test_designer.html';
+	}
+	else{
+		alert("click to teXt");
+		window.location.href='text_designer.html';
+	}
+}
 
+//LOCAL STORAGE -----------------------------------------------------
 function getLocalList(key){
     var res = JSON.parse(localStorage.getItem(key));
     if (res === null)
@@ -30,7 +49,8 @@ function getLocalKey(key){
 }
 function getLocalBool(key){
     var res = JSON.parse(localStorage.getItem(key));
-    if (res == null || res == "false")
+	console.log(JSON.parse(localStorage.getItem(key)));
+    if (res == null || res == false)
         res = false;
     else
         return true;
@@ -42,11 +62,18 @@ function setLocalLists(list_pageId, list_types, list_title, list_text){
     localStorage.setItem('list_title', JSON.stringify(list_title));
     localStorage.setItem('list_text', JSON.stringify(list_text));
 }
-function setLocalLists1(list_answer, list_right_answer, list_points){
+function setLocalListsTest(list_answer, list_right_answer, list_points, list_types_test){
     localStorage.setItem('list_answer', JSON.stringify(list_answer));
     localStorage.setItem('list_right_answer', JSON.stringify(list_right_answer));
-	localStorage.setItem('list_points', JSON.stringify(list_points));	
+	localStorage.setItem('list_points', JSON.stringify(list_points));
+	localStorage.setItem('list_types_test', JSON.stringify(list_types_test));
 }
+function getCurrentPage(){
+    return getLocalKey('current_page');
+}
+//-----------------------------------------------------------------------------
+//ФУНКЦИИ ИНИЦИАЛИЗАЦИИ страниц при запуске
+//функция получает имя курса и его тип, а так же флаг - открыта страница на редактирование или вновь создана
 function start_init(){
     //получаем название курса
     document.getElementById('course_name').innerHTML = getLocalKey('course_name');
@@ -58,40 +85,42 @@ function start_init(){
     var res = getLocalBool('flag_open');
     return res;
 }
-
-function getCurrentPage(){
-    return getLocalKey('current_page');
+//удаляет у всех страниц класс текущей
+function popCurrentClass(list_pageId){
+	for (var i = 0; i < list_pageId.length; i++)
+		document.getElementById(list_pageId[i]).classList.remove("currentPage");
 }
 
-function clickCurrentPage(current_page){
-    localStorage.setItem('flag_open', JSON.stringify(true));
-    localStorage.setItem('current_page', JSON.stringify(current_page));
-    setLocalLists(list_pageId,list_types, list_title, list_text);
-    window.location.reload();
-}
-
+//-----------------------------------------------------------------------------
+//ФУНКЦИИ ПОИСКА
+//ищет индекс объекта в листе
 function indexOf(list, object){
     for (var i = 0; i < list.length; i++)
         if(list[i] === object)
             return i;
     return -1;
 }
-function indexOfTest(list_pageId, object, list_types){
-    for (var i = 0, j = -1; i < list_pageId.length; i++)
-        if(list_types[i] === 'text')
+//получает индекс тестовой страницы (т.к. размеры листов не совпадают)
+function indexOfTest(list, object){
+    for (var i = 0, j = -1; i < list.length; i++){
+        if(/test.+/.test(object))
             j++;
-    if(list_pageId[i] === object)
-        return j;
+		if(list[i] === object)
+			return j;
+	}
     return -1;
 }
-
+//----------------------------------------------------------------------------
+//Вспомогательный функции
+//включает кнопку сейва страницы
 function change(){
     document.getElementById("btn_save_page").disabled = false;
 }
+//затычка для всего, что еще не готово
 function sorry(){
     swal("Простите ☹", "Это пока что в разработке", "info");
 }
-
+//получает теги из тег-листа (при создании курса)
 function getTags() {
     var div_tags = document.getElementById("tags");
     var list_spans = div_tags.getElementsByTagName('span');
@@ -105,33 +134,7 @@ function getTags() {
 
     return list_tags;
 }
-
-var answer = "";
-var succ_ans = "";
-function getAnswer() {
-    if ($("#succes-input").length)
-        succ_ans += document.getElementById("succes-input").value;
-
-    for (var i = 1; i < 6; i++){
-        if ($("#check1").length)
-            var check = document.getElementById("check"+i).value;
-        else
-            check = true;
-        if($("#input"+i).length){
-            var input = document.getElementById("input"+i).value;
-            if(input !== ""){
-                if (check === true){
-                    if (i !== 1)
-                        succ_ans += "|}|{ona|";
-                    succ_ans += input;
-                }
-                if (i !== 1)
-                    answer += "|}|{ona|";
-                answer += input;
-            }
-        }
-    }
-}
+//---------------------------------------------------------------------------
 
 function sendCourse() {
     $.ajax({
@@ -166,6 +169,7 @@ function sendCourse() {
 function sendCourseStruct() {
     var typeList = getLocalList("list_types");
     var courseId = getLocalKey("course_id");
+	var pageIdList = getLocalList('list_pageId');
 
     $.ajax({
         url: "../ajax/course_struct",
@@ -185,48 +189,31 @@ function sendCourseStruct() {
                 alert("Error sendCourseStruct()");	// Если он пустой ("") - сообщить об ошибке
             else
             {
-                //alert(data);
-                // Если в нём числа - парсим числа (page_id) и для каждого вызываем sendTextPage() или sendTestPage()
-                // в зависимости от типа страницы (тип страницы можно определить по массиву types)
-                // for (var i = 0; i < data.length; i+=1){
-                //     var page_id = parseInt(data.charAt(i),10);
-                //     console.log(page_id);//debug
-                //     if(page_id !== 0){
-                //         if (typeList[i] === "text")
-                //             sendTextPage(courseId, page_id);
-                //         else
-                //             sendTestPage(courseId, page_id);
-                //     }
-                //     else
-                //         console.log("Error! null page_id");
-                // }
-
                 var ids = data.split(",");
                 for (var i = 0; i < ids.length; i+=1) {
                     var page_id = parseInt(ids[i], 10);
                     if(page_id !== 0) {
                         if (typeList[i] === "text")
-                            sendTextPage(courseId, page_id, i + 1);
+                            sendTextPage(courseId, page_id, pageIdList[i]);
                         else
-                            sendTestPage(courseId, page_id, i + 1);
+                            sendTestPage(courseId, page_id, pageIdList[i]);
                     } else
                         console.log("Error! null page_id");
                 }
-                //localStorage.setItem('list_pageId', JSON.stringify(ids));
-
             }
         }
     });
 }
 
 function sendTextPage(course, page, local_page) {
-    var list_pageId = getLocalList("list_pageId");
-    alert("List: " + list_pageId);
-    var index = indexOf(list_pageId, "page" + local_page);
-    alert("Find by: page" + local_page);
-    alert("Index: " + index);
-    var list_title = getLocalList("list_title");
+	var list_pageId = getLocalList('list_pageId'); //list LOCAL pageId
+	var list_title = getLocalList("list_title"); 
     var list_text = getLocalList("list_text");
+	
+	//alert("List: " + list_pageId);
+    var index = indexOf(list_pageId, local_page); //index text page
+    alert("Find by: " + local_page);
+    alert("Index: " + index);
 
     $.ajax({
         url: "../ajax/course_page_text",
@@ -242,19 +229,26 @@ function sendTextPage(course, page, local_page) {
     }
 });
 }
-//-------------------------------------------------------- Создание тестовых страницы пока что делаю
-function sendTestPage(course, page, local_page) {
-    var list_pageId = getLocalList("list_pageId");
-    alert("List: " + list_pageId);
-    var index = indexOf(list_pageId, "page" + local_page);
-    alert("Non test index: " + index);
-    var list_title = getLocalList("list_title");
-    var list_text = getLocalList("list_text");
 
-    var indexTest = indexOfTest(list_pageId, page, list_types);
-    alert("Test index: " + indexTest);
-    var list_answer = getLocalList("list_answer");
+function sendTestPage(course, page, local_page) {
+    var list_pageId = getLocalList("list_pageId"); //list LOCAL pageId
+	var list_title = getLocalList("list_title");
+    var list_text = getLocalList("list_text");
+	var list_answer = getLocalList("list_answer");
     var list_right_answer = getLocalList("list_right_answer");
+	
+	//добавил баллы
+	var list_points = getLocalList('list_points');
+	//и тип теста - 'text', 'radio', 'chechbox'
+	var list_types_test = getLocalList('list_types_test');
+    
+	alert("List: " + list_pageId);
+    
+	var index = indexOf(list_pageId, local_page); //index text's part of test page
+    alert("Non test index: " + index);
+
+    var indexTest = indexOfTest(list_pageId, local_page); //index test page
+    alert("Test index: " + indexTest);
 
     $.ajax({
         url: "../ajax/course_page_test",
@@ -266,10 +260,13 @@ function sendTestPage(course, page, local_page) {
             ans: list_answer[indexTest] + "",      // Текст вариантов ответа
             // Если вариант ответа один - разделитель офк не нужен (Пример "Ответ1")
             // Если вариантов ответа несколько - разделитель нужен. Разделителем будет |}|{ona| (Пример "Ответ1|}|{ona|Ответ2")
-            rightAns: list_right_answer[indexTest] + ""// Текст верных вариантов ответа. Правила такие же, что и в ans
+            rightAns: list_right_answer[indexTest] + "",// Текст верных вариантов ответа. Правила такие же, что и в ans
             // ИЛИ можешь склеить верные номера ответов в строку - например ans = "Ответ1|}|{ona|Ответ2|}|{ona|Ответ3"
             // Если верными будут ответы 1 и 3, то отправляешь "13" или "31", главное, чтобы номер соответствовал порядку в ans
             // Второй варик предпочтительнее, напиши потом, чо выбрал
+			
+			points: list_points[indexTest] + "", //баллы за тест
+			type: list_types_test[indexTest] + "" //и тип теста - 'text', 'radio', 'chechbox'
         }),
         success: function (data) {
             // Сюда могу сообщить об ошибке, но пока что её игнорим, здесь можно нихуя не добавлять

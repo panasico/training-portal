@@ -84,145 +84,160 @@
 	</div>
 </body>
 <script>
-var flag_open = start_init();
-// получаем текущий pageId
-var current_page = getCurrentPage();
-//получаем количество текстовых страниц
-var count_text_pages = getLocalKey('count_text_pages');
+	var flag_open = start_init();
+	// получаем текущий pageId
+	var current_page = getLocalKey('current_page');
+	//получаем количество тестовых страниц
+	var count_text_pages = getLocalKey('count_text_pages');
 
-//получаем листы данных страниц
-var list_pageId = getLocalList('list_pageId');
-var list_types = getLocalList('list_types');
-var list_title = getLocalList('list_title');
-var list_text = getLocalList('list_text');
+	//получаем листы данных страниц
+	var list_pageId = getLocalList('list_pageId');
+	var list_types = getLocalList('list_types');
+	var list_title = getLocalList('list_title');
+	var list_text = getLocalList('list_text');
 
-if (list_pageId !== []){	
-	//добавляем в обозреватель листов страницы, уже созданные ранее
-	for (var i = 0; i < list_pageId.length; i++){
-		getListTitles(list_pageId[i], list_pageId, list_title);
+	if (list_pageId !== []){	
+		//добавляем в обозреватель листов страницы, уже созданные ранее
+		for (var i = 0; i < list_pageId.length; i++){
+			getListTitles(list_pageId[i], list_pageId, list_title);
+		}
 	}
-}
-addTextPage();
-
-function addTextPage(){
-	setLocalLists(list_pageId, list_types, list_title, list_text);
-
-	flag_open = getLocalBool('flag_open');
-	current_page = getCurrentPage();
 	
-	if(count_text_pages > 0 && !(/test./.test(current_page))){
+	addTextPage();
+
+	function addTextPage(){
+		//setLocalLists(list_pageId, list_types, list_title, list_text);
+
+		flag_open = getLocalBool('flag_open');
+		current_page = getCurrentPage();
+		console.log("flag_open:"+flag_open);
+
+		count_text_pages++;
+
+		//удаляем у всех подсветку текущей страницы
+		popCurrentClass(list_pageId);
+		
+		//если мы открываем ранее созданную страницу
+		if (flag_open){
+			var index = indexOf(list_pageId, current_page);
+			document.getElementById(current_page).classList.add("currentPage");
+			document.getElementById("header-page").value = list_title[index];
+			document.getElementById('textArea').value = list_text[index];
+			localStorage.setItem('flag_open', JSON.stringify(false));
+		}
+		else{
+			if(count_text_pages > 1 && !(/test.+/.test(current_page))){
+				savePage();
+				document.getElementById("btn_save_page").disabled = false;
+			}
+			//контейнер, в котором все страницы
+			var list_pages = document.getElementById('list-pages');
+			//создаем новую страницу
+			var new_page = document.createElement('li');
+			new_page.innerHTML = "Новая страница";
+			new_page.classList.add("pages");
+			new_page.classList.add("currentPage");
+			new_page.id = "text"+count_text_pages;
+			new_page.onclick = function(){
+				savePage();
+				clickCurrentPage(new_page.id);
+			}
+
+			list_pageId.push(new_page.id);
+			list_types.push("text");
+			list_title.push(new_page.innerHTML);
+			list_text.push("");
+
+			current_page = new_page.id;
+
+			if (count_text_pages > 1){
+				new_page.innerHTML +=" " + (count_text_pages-1);
+				document.getElementById("header-page").value = "Новая страница "+(count_text_pages-1);
+			}
+			
+			list_pages.appendChild(new_page);
+
+			document.getElementById('textArea').value = "";
+
+
+			$('#list-pages').sortable({
+				 change: function( event, ui ) {
+					 //здесь надо повесить запоминание порядка при перетягивании
+				 }
+			});
+
+			localStorage.setItem('current_page', JSON.stringify(current_page));
+			localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+		}
+	}
+	function addTestPage(){
 		savePage();
+		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
+		window.location.href='/constructor/test_designer';
+	}
+
+	function savePage(){
+		alert("save page text!");
+
+		current_page = getCurrentPage();
+		console.log("current_page(save):"+current_page); //debug
+		//buffers
+		var index = indexOf(list_pageId,current_page);
+		console.log("index(save):"+index); //debug
+
+		var title = document.getElementById('header-page').value;
+		var text =  document.getElementById('textArea').value;
+
+		//внесение изменений
+		list_title[index] = title;
+		console.log("title(save):"+title); //debug
+		
+		var title_expl = document.getElementById(current_page);
+		title_expl.innerHTML = title;
+		
+
+		list_text[index] = text;
+		console.log("text(save):"+text); //debug
+
+		/*var page = document.getElementById(current_page);
+		page.onclick = function(){
+				savePage();
+				clickCurrentPage(page.id);
+			}*/
+
+		document.getElementById("btn_save_page").disabled = true;
+
+		setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
+	}
+	function change(){
 		document.getElementById("btn_save_page").disabled = false;
 	}
-		
-	count_text_pages++;
-
-	//удаляем у всех подсветку текущей страницы
-	for (var i = 0; i < list_pageId.length; i++){
-		document.getElementById(list_pageId[i]).classList.remove("currentPage");
+	function sorry(){
+		swal("Простите ☹", "Это пока что в разработке", "info");
 	}
-	//если мы открываем ранее созданную страницу
-	if (flag_open){
-		var index = indexOf(list_pageId, current_page);
-		document.getElementById(current_page).classList.add("currentPage");
-		document.getElementById("header-page").value = list_title[index];
-		document.getElementById('textArea').value = list_text[index];
-		localStorage.setItem('flag_open', JSON.stringify(false));
-	}
-	else{
-		//контейнер, в котором все страницы
-		var list_pages = document.getElementById('list-pages');
-		//создаем новую страницу
-		var new_page = document.createElement('li');
-		new_page.innerHTML = "Новая страница";
-		new_page.classList.add("pages");
-		new_page.classList.add("currentPage");
-		new_page.id = "text"+count_text_pages;
+	function saveCourse(){
+		savePage();
+		sendCourseStruct();
+		swal({
+			title: "Хорошая работа!",
+				text: "Курс сохраняется...",
+				icon: "success",
+			  // buttons: {
+				// catch: {
+				//   text: "OK",
+				//   value: "OK",
+				// },
+			  // },
+		})
+		.then((value) => {
+		  switch (value) {
+			case "OK":
 
-		list_pageId.push(new_page.id);
-		list_types.push("text");
-		list_title.push(new_page.innerHTML);
-		list_text.push("");
-
-		new_page.onclick = function(){
-			//clickCurrentPage(new_page.id);
-		}
-
-		current_page = new_page.id;
-
-		if (count_text_pages > 1){
-			new_page.innerHTML +=" " + (count_text_pages-1);
-			document.getElementById("header-page").value = "Новая страница "+(count_text_pages-1);
-		}
-		list_pages.appendChild(new_page);
-
-		document.getElementById('textArea').value = "";
-
-
-		$('#list-pages').sortable({
-			 change: function( event, ui ) {
-				 //здесь надо повесить запоминание порядка при перетягивании
-			 }
+			  break;
+		  }
 		});
 
-		localStorage.setItem('current_page', JSON.stringify(current_page));
-		localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
 	}
-}
-function addTestPage(){
-	savePage();
-	localStorage.setItem('count_text_pages', JSON.stringify(count_text_pages));
-	window.location.href='test_designer.html';
-}
-
-function savePage(){
-	current_page = getCurrentPage();
-	//buffers
-	var index = indexOf(list_pageId,current_page);
-	console.log("index(save):"+index); //debug
-	var title = document.getElementById('header-page').value;
-	var text =  document.getElementById('textArea').value;
-	//внесение изменений
-	list_title[index] = title;
-	var title_expl = document.getElementById(current_page);
-	title_expl.innerHTML = title;
-	list_text[index] = text;
-	console.log("title(save):"+title); //debug
-	console.log("text(save):"+text); //debug
-	
-	document.getElementById("btn_save_page").disabled = true;
-	
-	setLocalLists(list_pageId,list_types, list_title, list_text); // сохранение изменений
-}
-function change(){
-	document.getElementById("btn_save_page").disabled = false;
-}
-function sorry(){
-	swal("Простите ☹", "Это пока что в разработке", "info");
-}
-function saveCourse(){
-	savePage();
-	sendCourseStruct();
-	swal({
-		title: "Хорошая работа!",
-			text: "Курс сохраняется...",
-			icon: "success",
-		  // buttons: {
-			// catch: {
-			//   text: "OK",
-			//   value: "OK",
-			// },
-		  // },
-	})
-	.then((value) => {
-	  switch (value) {
-		case "OK":
-
-		  break;
-	  }
-	});
-
-}
 
 </script>
 </html>
