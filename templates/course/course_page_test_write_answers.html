@@ -36,7 +36,9 @@
 		<div><textarea name="text_of_paige" cols="100" rows="7" id="textArea" readonly style="resize:none;overflow-y: auto; border-style:none;"> {{Question}} </textarea></div>
 		<div><input type="text" class="form-control" placeholder="введите ответ"></div>
 		<form action="" method="post">
-		<button type="button" name="send" value="send">Отправить</button>
+			<button type="button" name="back" value="back" class="next_back_btn"><img style="transform: rotate(180deg);" src="../../static/images/course_next.png" alt="Назад"/></button>
+			<button name="send" value="send" type="button" class="send">Отправить</button>
+			<button type="button" name="forward" value="forward"  class="next_back_btn" style="float:right;"><img src="../../static/images/course_next.png" alt="Вперед"/></button>
 	</form>
 	</div>
 	  </div>

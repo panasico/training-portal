@@ -92,10 +92,28 @@ li.pages:hover{
    	font-size: 35px;
    	font-style: normal;
 }
+.tags{
+	width: 1200px;
+	padding-top: 10px;
+	padding-left: 300px;
+	height: 40px;
+	text-align: left;
+	color:palevioletred;
+	font-family: "Exo 2";
+   	font-weight: bold;
+   	font-size: 20px;
+   	font-style: normal;
+}
 .video{
 	width: 730px;
 	height: 400px;
 	margin: 0 auto;
+}
+.send{
+	width:150px;
+	height:50px;
+	margin: 50px 50px 50px 300px;
+	
 }
 textarea:focus{
 	outline: none;
@@ -111,6 +129,17 @@ score{
    	font-weight: bold;
    	font-style: normal;
 }
+header_text_addons{
+	width: 120px;
+	padding-top: 15px;
+	height: 60px;
+	text-align: left;
+	color:black;
+	font-family: "Exo 2";
+   	font-weight: bold;
+   	font-size: 20px;
+   	font-style: normal;
+}
 .next_back_btn{
 	border-style: none;
 	background-color: inherit;
@@ -123,4 +152,5 @@ score{
     box-sizing: border-box;  /* не поддерживается в CSS2 */
     margin-left: 0;
     margin-right: 0;
+}.send {
 }

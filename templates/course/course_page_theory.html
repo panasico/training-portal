@@ -5,7 +5,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Untitled Document</title>
-  <script src="js/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap -->
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -32,19 +31,25 @@
 		  </div>
 		<div class="theory-panel" id ="theory_column">
 		  <div class="page_title" id = "name_of_page">{{name_of_page}}</div>
-		  <div><textarea name="text_of_paige" cols="100" rows="15" id="textArea" readonly style="resize:none;overflow-y: auto; border-style:none;"> {{Theory}} </textarea></div>
-		  <div>СЮДА НАДО ДОБАВИТЬ ФОТО</div>
-		  <div><header_text_addons> Дополнителтные материалы: </header_text_addons></div>
+			<div class="tags" id = "tags">{{list_of_tags}}</div>
+  <div><textarea name="text_of_paige" cols="100" rows="15" id="textArea" readonly style="resize:none;overflow-y: auto; border-style:none;"> {{Theory}} </textarea></div>
+		  <div class="list_of_images">
+			  <ul class="col-xl-6" id="list-images" style="padding: 0;">
+				  <img src="{{link_of_image}}" alt=""/>
+				  </ul>
+		  </div>
+		
+  <div><header_text_addons> Дополнителтные материалы: </header_text_addons></div>
 			<div class="link-list">
 				<ul class="col-xl-6" id="list-links" style="padding: 0;">
 					<a href= "{{docs}}">{{links_of_inserts}} </a>
 			  </ul>
 			</div>
 		  <div class="video">
-				  <iframe class="video" src="http://tv.adobe.com/embed/1221/24197/"></iframe>
+				  <iframe width="560" height="315" src="{{link_of_video_from_youtube}}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		  </div>
 		<form action="" method="post">
-		  <button type="button" name="back" value="back" class="next_back_btn"><img style="transform: rotate(180deg);" src="../../static/images/course_next.png" alt="Вперед"/></button>
+		  <button type="button" name="back" value="back" class="next_back_btn"><img style="transform: rotate(180deg);" src="../../static/images/course_next.png" alt="Назад"/></button>
 			<button type="button" name="forward" value="forward"  class="next_back_btn" style="float:right;"><img src="../../static/images/course_next.png" alt="Вперед"/></button>
 		</form>
 		</div>
