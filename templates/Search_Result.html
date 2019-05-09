@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Untitled Document</title>
+    <!-- Bootstrap -->
+	<link href="../static/css/bootstrap-4.0.0.css" rel="stylesheet">
+	  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+	<script src="../static/js/jquery-3.2.1.min.js"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../static/js/popper.min.js"></script> 
+	<script src="../static/js/bootstrap-4.0.0.js"></script>
+	<link href="../static/images/icon.png" rel="shortcut icon" type="image/x-icon">
+	<link href= "../static/css/demo1.css" rel="stylesheet">
+	<link href= "../static/css/index.css" rel="stylesheet">
+	<link href="../static/css/simpleGridTemplate.css" rel="stylesheet" type="text/css">
+	<script src="../static/scripts/jquery-1.12.4.min.js"></script>
+	<script src="../static/scripts/wb.carousel.min.js"></script>
+	<script src="../static/scripts/searchindex.js"></script>
+	<script src="../static/scripts/wb.sitesearch.min.js"></script>
+	<script src="../static/scripts/login.js"></script>
+  </head>
+  <body>
+  	<!-- body code goes here -->
+<div class="container">
+	
+	  <div id = "gallery">
+	  <ul class="col-xl-6" id="list-results" style="padding: 0;">
+	  	<div class="thumbnail"> <a href="#"><img src= "{{image_of_course}}" alt="" width="2000" class="cards"/></a>
+      	<h4>{{name_of_course}}</h4>
+      	<p class="tag">{{list_of_tags}}</p>
+      	</div>
+	  </ul>
+	  </div>
+</div>
+  </body>
+</html>
